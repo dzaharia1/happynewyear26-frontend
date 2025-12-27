@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Maze from './components/Maze';
-import Player from './components/Player';
+import Champagne from './components/Champagne';
 import Joystick from './components/Joystick';
 import { useGameLoop } from './hooks/useGameLoop';
 
@@ -45,7 +45,7 @@ function App() {
 
       <GameArea>
         <Maze />
-        <Player x={x} y={y} direction={direction} isMoving={isMoving} />
+        <Champagne x={x} y={y} direction={direction} isMoving={isMoving} />
       </GameArea>
       <Joystick onInput={setManualInput} />
 

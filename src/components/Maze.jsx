@@ -21,6 +21,10 @@ const Tile = styled.div`
 
 const Wall = styled(Tile)`
   background-color: #1919a6; // Classic arcade blue
+  ${(props) => props.color === 'red' && 'background-color: #ff0000;'}
+  ${(props) => props.color === 'yellow' && 'background-color: #ffff00;'}
+  ${(props) => props.color === 'tan' && 'background-color: #d2b48c;'}
+  ${(props) => props.color === 'blue' && 'background-color: #1919a6;'}
   border: 1px solid #111;
   box-sizing: border-box;
   border-radius: 4px;
@@ -41,19 +45,40 @@ const Maze = React.memo(() => {
   return (
     <MazeContainer>
       {LEVEL.flat().map((tileType, index) => {
-        // 1 is Wall
+        // 1 is red Wall
         if (tileType === 1) {
-          return <Wall key={index} />;
+          return <Wall key={index} color="blue" />;
+        }
+
+        if (tileType === 2) {
+          return <Wall key={index} color="yellow" />;
+        }
+
+        if (tileType === 3) {
+          return <Wall key={index} color="tan" />;
+        }
+
+        if (tileType === 4) {
+          return <Wall key={index} color="blue" />;
         }
 
         // 2 is Dot
-        if (tileType === 2) {
+        if (tileType === 5) {
           return (
             <Floor key={index}>
               <Dot />
             </Floor>
           );
         }
+
+        // // 4 is Hot Dog
+        // if (tileType === 6) {
+        //   return (
+        //     <Floor key={index}>
+        //       <HotDog />
+        //     </Floor>
+        //   );
+        // }
 
         // 0 (Empty) and 3 (Start) are just Floor
         return <Floor key={index} />;

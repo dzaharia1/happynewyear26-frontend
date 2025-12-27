@@ -1,10 +1,10 @@
 import { useRef, useState, useEffect } from 'react';
-import { LEVEL, TILE_SIZE, PLAYER_SPEED } from '../constants';
+import { LEVEL, TILE_SIZE, PLAYER_SPEED, PLAYER_COLLISION_BUFFER } from '../constants';
 
 export const useGameLoop = () => {
   // Find start position
-  const startRow = LEVEL.findIndex(row => row.includes(3));
-  const startCol = LEVEL[startRow].indexOf(3);
+  const startRow = LEVEL.findIndex(row => row.includes('startpos'));
+  const startCol = LEVEL[startRow].indexOf('startpos');
   
   const startX = startCol * TILE_SIZE;
   const startY = startRow * TILE_SIZE;
@@ -17,7 +17,7 @@ export const useGameLoop = () => {
   const lastInputRef = useRef({ x: 0, y: 0 });    // Last valid move direction
   
   // Animation state for sprites
-  const [direction, setDirection] = useState('down'); // 'up', 'down', 'left', 'right'
+  const [direction, setDirection] = useState('right'); // 'up', 'down', 'left', 'right'
   const [isMoving, setIsMoving] = useState(false);
 
   useEffect(() => {
@@ -91,7 +91,7 @@ export const useGameLoop = () => {
       // We check the four corners of the player's bounding box against the grid
       // Player is TILE_SIZE x TILE_SIZE
       // A slight buffer allows sliding through gaps easier
-      const buffer = 8; 
+      const buffer = PLAYER_COLLISION_BUFFER; 
       
       const checkCollision = (checkX, checkY) => {
         // Get grid indices for top-left, top-right, bottom-left, bottom-right
@@ -100,7 +100,7 @@ export const useGameLoop = () => {
         const topRow = Math.floor((checkY + buffer) / TILE_SIZE);
         const bottomRow = Math.floor((checkY + TILE_SIZE - buffer) / TILE_SIZE);
 
-        // Check if any of these tiles are walls (1)
+        // Check if any of these tiles are walls (1, 2, 3, or 4)
         // We need to handle out of bounds too
         if (
           topRow < 0 || leftCol < 0 || 
@@ -109,10 +109,12 @@ export const useGameLoop = () => {
           return true; // Out of bounds is a collision
         }
 
-        const topLeft = LEVEL[topRow][leftCol] === 1;
-        const topRight = LEVEL[topRow][rightCol] === 1;
-        const bottomLeft = LEVEL[bottomRow][leftCol] === 1;
-        const bottomRight = LEVEL[bottomRow][rightCol] === 1;
+        const isWall = (tile) => tile >= 1 && tile <= 4;
+
+        const topLeft = isWall(LEVEL[topRow][leftCol]);
+        const topRight = isWall(LEVEL[topRow][rightCol]);
+        const bottomLeft = isWall(LEVEL[bottomRow][leftCol]);
+        const bottomRight = isWall(LEVEL[bottomRow][rightCol]);
 
         return topLeft || topRight || bottomLeft || bottomRight;
       };

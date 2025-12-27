@@ -4,7 +4,8 @@ import styled from 'styled-components';
 const JoystickContainer = styled.div`
   position: fixed;
   bottom: 50px;
-  right: 50px;
+  right: 50%;
+  transform: translateX(50%);
   width: 120px;
   height: 120px;
   background: rgba(255, 255, 255, 0.2);
