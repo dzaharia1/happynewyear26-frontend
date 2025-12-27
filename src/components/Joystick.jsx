@@ -79,6 +79,13 @@ const Joystick = ({ onInput }) => {
 
     setPosition({ x: dx, y: dy });
 
+    // Dead zone check
+    const deadZone = 15;
+    if (distance < deadZone) {
+      onInput({ x: 0, y: 0 });
+      return;
+    }
+
     // Determine direction
     // We want to map this to x: -1/0/1, y: -1/0/1
     // Use a threshold to avoid jitter
