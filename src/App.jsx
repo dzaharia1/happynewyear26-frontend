@@ -1,18 +1,55 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
+import Maze from './components/Maze';
+import Player from './components/Player';
+import { useGameLoop } from './hooks/useGameLoop';
 
-const Page = styled.div`
+const GameContainer = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  height: 100vh;
-  font-size: 24px;
-  color: #333;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #222;
+  color: white;
+  font-family: 'Inter', sans-serif;
+`;
+
+const Title = styled.h1`
+  margin-bottom: 20px;
+  font-size: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: #ffd700;
+  text-shadow: 2px 2px 0px #d35400;
+`;
+
+const GameArea = styled.div`
+  position: relative; // Context for absolute player
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+`;
+
+const Instructions = styled.p`
+  margin-top: 20px;
+  color: #aaa;
+  font-size: 0.9rem;
 `;
 
 function App() {
-  return <Page>Hello from Happy New Year 2026!</Page>;
+  const { x, y, direction, isMoving } = useGameLoop();
+
+  return (
+    <GameContainer>
+      <Title>Pac-Maze</Title>
+
+      <GameArea>
+        <Maze />
+        <Player x={x} y={y} direction={direction} isMoving={isMoving} />
+      </GameArea>
+
+      <Instructions>Use Arrow Keys or WASD to move</Instructions>
+    </GameContainer>
+  );
 }
 
 export default App;
-
