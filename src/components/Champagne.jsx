@@ -17,8 +17,8 @@ const ChampagneWrapper = styled.div`
 
 // Placeholder for sprite
 const Sprite = styled.div`
-  width: ${TILE_SIZE * 0.8}px;
-  height: ${TILE_SIZE * 0.8}px;
+  width: 100%;
+  height: 100%;
   position: relative;
 
   &::before {
@@ -95,7 +95,7 @@ const Sprite = styled.div`
     ${(props) =>
       props.$direction === 'down' &&
       css`
-        background-image: url(./champagne/down1.png);
+        background-image: url(./champagne/down0.png);
         ${props.$isMoving &&
         css`
           animation: down-toggle 0.4s steps(1) infinite;
@@ -108,52 +108,6 @@ const Sprite = styled.div`
             background-image: url(./champagne/down2.png);
           }
         }
-      `}
-  }
-
-  /* Directional indicator (eye/mouth placeholder) */
-  &::after {
-    content: '';
-    position: absolute;
-    width: 20%;
-    height: 20%;
-    background: #ff0;
-    top: 20%;
-    right: 20%;
-    border-radius: 50%;
-
-    ${(props) =>
-      props.$direction === 'left' &&
-      css`
-        // right: auto;
-        top: 50%;
-        right: auto;
-        left: 0;
-        transform: translate(0, -50%);
-      `}
-
-    ${(props) =>
-      props.$direction === 'right' &&
-      css`
-        right: 0;
-        left: auto;
-        top: 50%;
-        transform: translate(0, -50%);
-      `}
-    
-    ${(props) =>
-      props.$direction === 'up' &&
-      css`
-        top: 10%;
-        right: 40%;
-      `}
-    
-    ${(props) =>
-      props.$direction === 'down' &&
-      css`
-        top: auto;
-        bottom: 20%;
-        right: 40%;
       `}
   }
 `;

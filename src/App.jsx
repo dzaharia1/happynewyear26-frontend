@@ -4,6 +4,7 @@ import Maze from './components/Maze';
 import Champagne from './components/Champagne';
 import Joystick from './components/Joystick';
 import { useGameLoop } from './hooks/useGameLoop';
+import { LEVEL, TILE_SIZE } from './constants';
 
 const GameContainer = styled.div`
   display: flex;
@@ -38,12 +39,36 @@ const Instructions = styled.p`
 
 function App() {
   const { x, y, direction, isMoving, setManualInput } = useGameLoop();
+  const [scale, setScale] = React.useState(1);
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      // Calculate game dimensions dynamically
+      const GAME_WIDTH = LEVEL[0].length * TILE_SIZE;
+      const GAME_HEIGHT = LEVEL.length * TILE_SIZE;
+      const PADDING = 40; // Buffer space
+
+      const availableWidth = window.innerWidth - PADDING;
+      const availableHeight = window.innerHeight - 200; // Leave space for title/instructions
+
+      const scaleX = availableWidth / GAME_WIDTH;
+      const scaleY = availableHeight / GAME_HEIGHT;
+
+      const newScale = Math.min(scaleX, scaleY, 1); // Don't scale up past 1
+      setScale(newScale);
+    };
+
+    handleResize(); // Initial calculation
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
     <GameContainer>
       <Title>Pac-Maze</Title>
 
-      <GameArea>
+      <GameArea
+        style={{ transform: `scale(${scale})`, transformOrigin: 'top center' }}>
         <Maze />
         <Champagne x={x} y={y} direction={direction} isMoving={isMoving} />
       </GameArea>
