@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Maze from './components/Maze';
 import Player from './components/Player';
+import Joystick from './components/Joystick';
 import { useGameLoop } from './hooks/useGameLoop';
 
 const GameContainer = styled.div`
@@ -36,7 +37,7 @@ const Instructions = styled.p`
 `;
 
 function App() {
-  const { x, y, direction, isMoving } = useGameLoop();
+  const { x, y, direction, isMoving, setManualInput } = useGameLoop();
 
   return (
     <GameContainer>
@@ -46,6 +47,7 @@ function App() {
         <Maze />
         <Player x={x} y={y} direction={direction} isMoving={isMoving} />
       </GameArea>
+      <Joystick onInput={setManualInput} />
 
       <Instructions>Use Arrow Keys or WASD to move</Instructions>
     </GameContainer>

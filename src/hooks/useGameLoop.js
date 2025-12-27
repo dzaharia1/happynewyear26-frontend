@@ -147,10 +147,15 @@ export const useGameLoop = () => {
   // But we need 'renderPos' in dependency if we were reading it, but we read posRef.
   // So [] is fine, or better yet, remove the dependency on renderPos in the effect.
   
+  const setManualInput = (input) => {
+    currentInputRef.current = input;
+  };
+
   return { 
     x: renderPos.x, 
     y: renderPos.y,
     direction,
-    isMoving
+    isMoving,
+    setManualInput
   };
 };
