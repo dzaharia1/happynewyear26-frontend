@@ -7,7 +7,6 @@ const MazeContainer = styled.div`
   grid-template-columns: repeat(${LEVEL[0].length}, ${TILE_SIZE}px);
   width: fit-content;
   position: relative;
-  // background-color: #000;
   border: 4px solid #222;
 `;
 
@@ -21,11 +20,15 @@ const Tile = styled.div`
 
 const Wall = styled(Tile)`
   background-color: #1919a6; // Classic arcade blue
+  border-width: 1px 1px 4px 1px;
   ${(props) =>
     props.color === 'red' &&
     'background-color: #3C2124; border-color: #522126;'}
-  ${(props) => props.color === 'yellow' && 'background-color: #ffff00;'}
-  ${(props) => props.color === 'tan' && 'background-color: #d2b48c;'}
+  ${(props) =>
+    props.color === 'yellow' &&
+    'background-color: #E3BA4A; border-color: #645826'}
+  ${(props) =>
+    props.color === 'tan' && 'background-color: #C6AB79; border-color: #A68449'}
   ${(props) => props.color === 'blue' && 'background-color: #1919a6;'}
   border: 1px solid #111;
   box-sizing: border-box;

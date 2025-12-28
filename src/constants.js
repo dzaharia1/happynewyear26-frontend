@@ -1,6 +1,6 @@
 export const TILE_SIZE = 50; // pixels
 export const PLAYER_SPEED = 2; // pixels per frame (must be a divisor of TILE_SIZE for smooth grid alignment)
-export const PLAYER_COLLISION_BUFFER = 16; // pixels to inset from the tile edges for collision detection
+export const PLAYER_COLLISION_BUFFER = 8; // pixels to inset from the tile edges for collision detection
 
 // 0 = empty floor
 // 1 = red wall
@@ -26,7 +26,7 @@ export const PLAYER_COLLISION_BUFFER = 16; // pixels to inset from the tile edge
 export const LEVEL = [
   [0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0],
   [0, 0, 0, 1, 1, 2, 5, 5, 1, 1, 1, 0, 0, 0],
-  [0, 0, 1, 1, 1, 5, 0, 0, 1, 1, 1, 1, 0, 0],
+  [0, 0, 1, 1, 1, 2, 5, 5, 1, 1, 1, 1, 0, 0],
   [0, 3, 0, 0, 0, 5, 5, 5, 0, 0, 1, 0, 0, 5],
   [1, 5, 1, 5, 1, 1, 0, 1, 1, 5, 1, 5, 1, 5],
   [1, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5],

@@ -15,7 +15,6 @@ const GameContainer = styled.div`
   min-height: 100dvh;
   background-color: #222;
   color: white;
-  // font-family: 'Inter', sans-serif;
 `;
 
 const Title = styled.h1`
@@ -32,12 +31,12 @@ const Title = styled.h1`
 
 const GameArea = styled.div`
   position: relative; // Context for absolute player
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  // box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 `;
 
 const Instructions = styled.p`
   margin-top: 20px;
-  color: #aaa;
+  color: #c8c8c8ff;
   font-size: 0.9rem;
 `;
 
