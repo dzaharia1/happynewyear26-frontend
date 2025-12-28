@@ -3,9 +3,6 @@ import styled from 'styled-components';
 
 const DPadContainer = styled.div`
   position: fixed;
-  bottom: 50px;
-  left: 50px; /* Positioned left for thumb access, or could be centered like joystick */
-  /* Replicating previous joystick position logic for consistency unless user wants otherwise */
   bottom: 80px;
   left: 50%;
   transform: translateX(-50%);

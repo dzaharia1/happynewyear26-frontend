@@ -4,17 +4,18 @@ import Maze from './components/Maze';
 import Champagne from './components/Champagne';
 import DPad from './components/DPad';
 import { useGameLoop } from './hooks/useGameLoop';
-import { LEVEL, TILE_SIZE } from './constants';
+import { LEVEL, TILE_SIZE, ZOOM_LEVEL } from './constants';
 
 const GameContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
-  min-height: 100dvh;
+  height: 100%;
+  width: 100%;
   background-color: #222;
   color: white;
+  overflow: hidden; /* Prevent scrollbars when zooming/panning */
 `;
 
 const Title = styled.h1`
@@ -42,37 +43,59 @@ const Instructions = styled.p`
 
 function App() {
   const { x, y, direction, isMoving, setManualInput } = useGameLoop();
-  const [scale, setScale] = React.useState(1);
 
-  React.useEffect(() => {
-    const handleResize = () => {
-      // Calculate game dimensions dynamically
-      const GAME_WIDTH = LEVEL[0].length * TILE_SIZE;
-      const GAME_HEIGHT = LEVEL.length * TILE_SIZE;
-      const PADDING = 40; // Buffer space
+  // Calculate camera offset to center the player
+  // We want the player at the center of the viewport
+  // Transform origin is 0 0, so we need to translate the world
 
-      const availableWidth = window.innerWidth - PADDING;
-      const availableHeight = window.innerHeight - 200; // Leave space for title/instructions
+  // Center of viewport
+  const centerX = window.innerWidth / 2;
+  const centerY = window.innerHeight / 2;
 
-      const scaleX = availableWidth / GAME_WIDTH;
-      const scaleY = availableHeight / GAME_HEIGHT;
+  // Player position in pixels (rel to top-left of game area)
+  // We use x and y from propertly useGameLoop which tracks player top-left corner
+  // We want to center on the player center, so add half tile
+  const playerPixelX = x + TILE_SIZE / 2;
+  const playerPixelY = y + TILE_SIZE / 2;
 
-      const newScale = Math.min(scaleX, scaleY, 1); // Don't scale up past 1
-      setScale(newScale);
-    };
+  // The transform needs to:
+  // 1. Move world so player is at (0,0) -> translate(-playerPixelX, -playerPixelY)
+  // 2. Scale up -> scale(ZOOM_LEVEL)
+  // 3. Move world so (0,0) is at viewport center -> translate(centerX, centerY)
 
-    handleResize(); // Initial calculation
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  // Order of operations in CSS transform string is applied right to left (or outside in)
+  // actually in CSS: transform: translate(cx, cy) scale(z) translate(-px, -py)
+  // visual result:
+  // start with map
+  // translate map so player is at origin
+  // scale map around origin (now player)
+  // move origin (player) to center of screen
+
+  const transformStyle = `translate(${centerX}px, ${centerY}px) scale(${ZOOM_LEVEL}) translate(-${playerPixelX}px, -${playerPixelY}px)`;
 
   return (
     <GameContainer>
-      <Title>Champer-Quest</Title>
-      <Instructions>Use Arrow Keys or WASD to move</Instructions>
+      <div
+        style={{
+          position: 'fixed',
+          top: 20,
+          left: 0,
+          width: '100%',
+          zIndex: 100,
+          pointerEvents: 'none', // Let clicks pass through to game if needed
+        }}>
+        <Title>Champer-Quest</Title>
+        <Instructions>Use Arrow Keys or WASD to move</Instructions>
+      </div>
 
       <GameArea
-        style={{ transform: `scale(${scale})`, transformOrigin: 'top center' }}>
+        style={{
+          transform: transformStyle,
+          transformOrigin: '0 0',
+          position: 'absolute',
+          left: 0,
+          top: 0,
+        }}>
         <Maze />
         <Champagne x={x} y={y} direction={direction} isMoving={isMoving} />
       </GameArea>
