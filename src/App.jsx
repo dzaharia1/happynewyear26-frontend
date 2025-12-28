@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Maze from './components/Maze';
 import Champagne from './components/Champagne';
-import Joystick from './components/Joystick';
+import DPad from './components/DPad';
 import { useGameLoop } from './hooks/useGameLoop';
 import { LEVEL, TILE_SIZE } from './constants';
 
@@ -18,7 +18,7 @@ const GameContainer = styled.div`
 `;
 
 const Title = styled.h1`
-  margin-bottom: 20px;
+  margin-bottom: 8px;
   font-size: 2rem;
   font-weight: 700;
   line-height: 0.8;
@@ -35,7 +35,7 @@ const GameArea = styled.div`
 `;
 
 const Instructions = styled.p`
-  margin-top: 20px;
+  margin-bottom: 8px;
   color: #c8c8c8ff;
   font-size: 0.9rem;
 `;
@@ -69,15 +69,14 @@ function App() {
   return (
     <GameContainer>
       <Title>Champer-Quest</Title>
+      <Instructions>Use Arrow Keys or WASD to move</Instructions>
 
       <GameArea
         style={{ transform: `scale(${scale})`, transformOrigin: 'top center' }}>
         <Maze />
         <Champagne x={x} y={y} direction={direction} isMoving={isMoving} />
       </GameArea>
-      <Joystick onInput={setManualInput} />
-
-      <Instructions>Use Arrow Keys or WASD to move</Instructions>
+      <DPad onInput={setManualInput} />
     </GameContainer>
   );
 }
