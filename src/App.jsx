@@ -12,18 +12,22 @@ const GameContainer = styled.div`
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+  min-height: 100dvh;
   background-color: #222;
   color: white;
-  font-family: 'Inter', sans-serif;
+  // font-family: 'Inter', sans-serif;
 `;
 
 const Title = styled.h1`
   margin-bottom: 20px;
   font-size: 2rem;
+  font-weight: 700;
+  line-height: 0.8;
+  text-align: center;
   text-transform: uppercase;
   letter-spacing: 4px;
-  color: #ffd700;
-  text-shadow: 2px 2px 0px #d35400;
+  color: #c77543;
+  text-shadow: 2px 2px 0px #793f3b;
 `;
 
 const GameArea = styled.div`
@@ -65,7 +69,7 @@ function App() {
 
   return (
     <GameContainer>
-      <Title>Pac-Maze</Title>
+      <Title>Champer-Quest</Title>
 
       <GameArea
         style={{ transform: `scale(${scale})`, transformOrigin: 'top center' }}>

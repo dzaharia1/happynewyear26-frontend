@@ -7,7 +7,7 @@ const MazeContainer = styled.div`
   grid-template-columns: repeat(${LEVEL[0].length}, ${TILE_SIZE}px);
   width: fit-content;
   position: relative;
-  background-color: #000;
+  // background-color: #000;
   border: 4px solid #222;
 `;
 
@@ -21,7 +21,9 @@ const Tile = styled.div`
 
 const Wall = styled(Tile)`
   background-color: #1919a6; // Classic arcade blue
-  ${(props) => props.color === 'red' && 'background-color: #ff0000;'}
+  ${(props) =>
+    props.color === 'red' &&
+    'background-color: #3C2124; border-color: #522126;'}
   ${(props) => props.color === 'yellow' && 'background-color: #ffff00;'}
   ${(props) => props.color === 'tan' && 'background-color: #d2b48c;'}
   ${(props) => props.color === 'blue' && 'background-color: #1919a6;'}
@@ -47,7 +49,7 @@ const Maze = React.memo(() => {
       {LEVEL.flat().map((tileType, index) => {
         // 1 is red Wall
         if (tileType === 1) {
-          return <Wall key={index} color="blue" />;
+          return <Wall key={index} color="red" />;
         }
 
         if (tileType === 2) {
