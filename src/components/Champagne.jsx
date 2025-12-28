@@ -1,6 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled, { keyframes, css } from 'styled-components';
 import { TILE_SIZE } from '../constants';
+
+const PRELOAD_IMAGES = [
+  './champagne/right0.png',
+  './champagne/right1.png',
+  './champagne/right2.png',
+  './champagne/left0.png',
+  './champagne/left1.png',
+  './champagne/left2.png',
+  './champagne/up0.png',
+  './champagne/up1.png',
+  './champagne/up2.png',
+  './champagne/down0.png',
+  './champagne/down1.png',
+  './champagne/down2.png',
+];
 
 const ChampagneWrapper = styled.div`
   position: absolute;
@@ -113,6 +128,13 @@ const Sprite = styled.div`
 `;
 
 const Champagne = ({ x, y, direction, isMoving }) => {
+  useEffect(() => {
+    PRELOAD_IMAGES.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, []);
+
   return (
     <ChampagneWrapper style={{ transform: `translate(${x}px, ${y}px)` }}>
       <Sprite $direction={direction} $isMoving={isMoving} />

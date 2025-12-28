@@ -19,18 +19,12 @@ const Tile = styled.div`
 `;
 
 const Wall = styled(Tile)`
-  background-color: #1919a6; // Classic arcade blue
+  // background-color: #1919a6; // Classic arcade blue
   border-width: 1px 1px 4px 1px;
-  ${(props) =>
-    props.color === 'red' &&
-    'background-color: #3C2124; border-color: #522126;'}
-  ${(props) =>
-    props.color === 'yellow' &&
-    'background-color: #E3BA4A; border-color: #645826'}
-  ${(props) =>
-    props.color === 'tan' && 'background-color: #C6AB79; border-color: #A68449'}
-  ${(props) => props.color === 'blue' && 'background-color: #1919a6;'}
-  border: 1px solid #111;
+  background-image: url('walltiles/wall--${(props) => props.color}.png');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
   box-sizing: border-box;
   border-radius: 4px;
 `;
