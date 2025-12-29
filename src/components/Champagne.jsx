@@ -48,7 +48,7 @@ const Sprite = styled.div`
 
     background: url(./champagne/right1.png);
     background-size: contain;
-    background-position: center;
+    background-position: calc(50% + 6px) center;
     background-repeat: no-repeat;
 
     z-index: -1;
