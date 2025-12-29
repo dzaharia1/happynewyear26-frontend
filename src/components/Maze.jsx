@@ -7,7 +7,7 @@ const MazeContainer = styled.div`
   grid-template-columns: repeat(${LEVEL[0].length}, ${TILE_SIZE}px);
   width: fit-content;
   position: relative;
-  border: 4px solid #222;
+  border: 4px solid transparent;
 `;
 
 const Tile = styled.div`

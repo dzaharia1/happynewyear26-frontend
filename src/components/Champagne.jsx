@@ -2,6 +2,13 @@ import React, { useEffect } from 'react';
 import styled, { keyframes, css } from 'styled-components';
 import { TILE_SIZE } from '../constants';
 
+const COLOR_SCHEMES = {
+  brown: {
+    background: '#793F3B',
+    border: '#471d1aff',
+  },
+};
+
 const PRELOAD_IMAGES = [
   './champagne/right0.png',
   './champagne/right1.png',
@@ -127,7 +134,54 @@ const Sprite = styled.div`
   }
 `;
 
-const Champagne = ({ x, y, direction, isMoving }) => {
+const baseBorderWidth = 3;
+const GamerTag = styled.div`
+  position: absolute;
+  bottom: calc(100% + 15px);
+  left: 50%;
+  transform: translateX(-50%);
+
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+
+  background-color: ${(props) => COLOR_SCHEMES[props.colorscheme].background};
+  padding: 2px 6px;
+  border-style: solid;
+  border-width: ${baseBorderWidth}px 0 ${baseBorderWidth * 2}px 0;
+  border-color: ${(props) => COLOR_SCHEMES[props.colorscheme].border};
+  pointer-events: none; // Let clicks pass through to maze if needed
+
+  z-index: 10;
+
+  &::after,
+  &::before {
+    position: absolute;
+    content: '';
+    right: 100%;
+    top: calc(0px - ${baseBorderWidth}px + 2px);
+    height: calc(100% + ${baseBorderWidth * 2}px - 2px);
+    width: ${baseBorderWidth}px;
+    background-color: ${(props) => COLOR_SCHEMES[props.colorscheme].border};
+  }
+
+  &::after {
+    left: 100%;
+  }
+`;
+
+const Champagne = ({
+  x,
+  y,
+  isCurrPlayer,
+  uniqueid,
+  playername,
+  colorscheme,
+  direction,
+  isMoving,
+}) => {
   useEffect(() => {
     PRELOAD_IMAGES.forEach((src) => {
       const img = new Image();
@@ -136,8 +190,11 @@ const Champagne = ({ x, y, direction, isMoving }) => {
   }, []);
 
   return (
-    <ChampagneWrapper style={{ transform: `translate(${x}px, ${y}px)` }}>
+    <ChampagneWrapper
+      isCurrPlayer={isCurrPlayer}
+      style={{ transform: `translate(${x}px, ${y}px)` }}>
       <Sprite $direction={direction} $isMoving={isMoving} />
+      <GamerTag colorscheme={colorscheme}>{playername}</GamerTag>
     </ChampagneWrapper>
   );
 };

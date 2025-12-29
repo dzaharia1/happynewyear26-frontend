@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Maze from './components/Maze';
 import Champagne from './components/Champagne';
@@ -13,7 +13,7 @@ const GameContainer = styled.div`
   justify-content: center;
   height: 100%;
   width: 100%;
-  background-color: #222;
+  background-color: #8eb6a4;
   color: white;
   overflow: hidden; /* Prevent scrollbars when zooming/panning */
 `;
@@ -43,6 +43,9 @@ const Instructions = styled.p`
 
 function App() {
   const { x, y, direction, isMoving, setManualInput } = useGameLoop();
+  const [playerName, setPlayerName] = useState('phong');
+  const [playerUid, setPlayerUid] = useState();
+  const [playerColorScheme, setPlayerColorScheme] = useState('brown');
 
   // Calculate camera offset to center the player
   // We want the player at the center of the viewport
@@ -97,7 +100,16 @@ function App() {
           top: 0,
         }}>
         <Maze />
-        <Champagne x={x} y={y} direction={direction} isMoving={isMoving} />
+        <Champagne
+          x={x}
+          y={y}
+          direction={direction}
+          isMoving={isMoving}
+          isCurrPlayer={true}
+          uniqueid={playerUid}
+          playername={playerName}
+          colorscheme={playerColorScheme}
+        />
       </GameArea>
       <DPad onInput={setManualInput} />
     </GameContainer>
