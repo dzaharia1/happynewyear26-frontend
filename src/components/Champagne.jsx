@@ -176,9 +176,7 @@ const Champagne = ({
   x,
   y,
   isCurrPlayer,
-  uniqueid,
-  playername,
-  colorscheme,
+  playerprofile,
   direction,
   isMoving,
 }) => {

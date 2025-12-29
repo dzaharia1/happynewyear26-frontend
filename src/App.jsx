@@ -43,9 +43,11 @@ const Instructions = styled.p`
 
 function App() {
   const { x, y, direction, isMoving, setManualInput } = useGameLoop();
-  const [playerName, setPlayerName] = useState('phong');
-  const [playerUid, setPlayerUid] = useState();
-  const [playerColorScheme, setPlayerColorScheme] = useState('brown');
+  const [playerProfile, setPlayerProfile] = useState({
+    playerName: null,
+    playerColorScheme: null,
+    playerUniqueID: null,
+  });
 
   // Calculate camera offset to center the player
   // We want the player at the center of the viewport
@@ -77,42 +79,43 @@ function App() {
   const transformStyle = `translate(${centerX}px, ${centerY}px) scale(${ZOOM_LEVEL}) translate(-${playerPixelX}px, -${playerPixelY}px)`;
 
   return (
-    <GameContainer>
-      <div
-        style={{
-          position: 'fixed',
-          top: 20,
-          left: 0,
-          width: '100%',
-          zIndex: 100,
-          pointerEvents: 'none', // Let clicks pass through to game if needed
-        }}>
-        <Title>Champer-Quest</Title>
-        <Instructions>Use Arrow Keys or WASD to move</Instructions>
-      </div>
+    <>
+      {playerProfile.playerName == null && <PlayerIntro />}
+      <GameContainer>
+        <div
+          style={{
+            position: 'fixed',
+            top: 20,
+            left: 0,
+            width: '100%',
+            zIndex: 100,
+            pointerEvents: 'none', // Let clicks pass through to game if needed
+          }}>
+          <Title>Champer-Quest</Title>
+          <Instructions>Use Arrow Keys or WASD to move</Instructions>
+        </div>
 
-      <GameArea
-        style={{
-          transform: transformStyle,
-          transformOrigin: '0 0',
-          position: 'absolute',
-          left: 0,
-          top: 0,
-        }}>
-        <Maze />
-        <Champagne
-          x={x}
-          y={y}
-          direction={direction}
-          isMoving={isMoving}
-          isCurrPlayer={true}
-          uniqueid={playerUid}
-          playername={playerName}
-          colorscheme={playerColorScheme}
-        />
-      </GameArea>
-      <DPad onInput={setManualInput} />
-    </GameContainer>
+        <GameArea
+          style={{
+            transform: transformStyle,
+            transformOrigin: '0 0',
+            position: 'absolute',
+            left: 0,
+            top: 0,
+          }}>
+          <Maze />
+          <Champagne
+            x={x}
+            y={y}
+            direction={direction}
+            isMoving={isMoving}
+            isCurrPlayer={true}
+            playerprofile={playerProfile}
+          />
+        </GameArea>
+        <DPad onInput={setManualInput} />
+      </GameContainer>
+    </>
   );
 }
 
