@@ -17,7 +17,7 @@ const MazeContainer = styled.div`
     left: -${TILE_SIZE}px;
     width: calc(100% + ${TILE_SIZE * 2}px);
     height: calc(100% + ${TILE_SIZE * 2}px);
-    background-image: url('mapbackground.png');
+    background-image: url('scenery/mapbackground.png');
     background-size: contain;
     background-repeat: no-repeat;
   }
@@ -50,10 +50,10 @@ const Scenery = styled(Tile)`
       ` : ''}
 
       ${props.sprite === 'kitchenisland' ? `
-        top: -12px;
+        top: -33px;
         left: -3px;
         width: ${TILE_SIZE * 7 + 18}px;
-        height: ${TILE_SIZE * 2 + 4}px;
+        height: ${TILE_SIZE * 3 + 4}px;
         background-size: ${TILE_SIZE * 7 + 18}px;
       ` : ''}
 
@@ -63,6 +63,30 @@ const Scenery = styled(Tile)`
         width: ${TILE_SIZE * 7}px;
         height: ${TILE_SIZE * 2 + 27}px;
         background-size: ${TILE_SIZE * 7}px;
+      ` : ''}
+
+      ${props.sprite === 'couch' ? `
+        top: -12px;
+        left: -12px;
+        width: ${TILE_SIZE * 2 + 15}px;
+        height: ${(TILE_SIZE * 6) - 3}px;
+        background-size: cover;
+      ` : ''}
+
+      ${props.sprite === 'figtree' ? `
+        bottom: 0;
+        left: -15px;
+        width: ${TILE_SIZE + 24}px;
+        height: ${(TILE_SIZE * 2) - 3}px;
+        background-size: cover;
+      ` : ''}
+
+      ${props.sprite === 'coffeetable' ? `
+        top: -12px;
+        left: 0;
+        width: ${TILE_SIZE * 2}px;
+        height: ${(TILE_SIZE * 3) - 33}px;
+        background-size: cover;
       ` : ''}
 
       background-image: url('scenery/${props.sprite}--top.png');
