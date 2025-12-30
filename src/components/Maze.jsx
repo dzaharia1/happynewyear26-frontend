@@ -18,7 +18,7 @@ const MazeContainer = styled.div`
     width: calc(100% + ${TILE_SIZE * 2}px);
     height: calc(100% + ${TILE_SIZE * 2}px);
     background-image: url('scenery/mapbackground.png');
-    background-size: contain;
+    background-size: cover;
     background-repeat: no-repeat;
   }
 `;
@@ -42,7 +42,7 @@ const Scenery = styled(Tile)`
       position: absolute;
 
       ${props.sprite === 'diningtable' ? `
-        top: -12px;
+        top: -39px;
         left: 0px;
         width: ${TILE_SIZE * 5}px;
         height: ${TILE_SIZE * 3}px;
@@ -87,6 +87,23 @@ const Scenery = styled(Tile)`
         width: ${TILE_SIZE * 2}px;
         height: ${(TILE_SIZE * 3) - 33}px;
         background-size: cover;
+      ` : ''}
+
+      ${props.sprite === 'buffet' ? `
+        // opacity: .5;
+        top: -12px;
+        left: 0;
+        width: ${(TILE_SIZE * 2) + 6}px;
+        height: ${(TILE_SIZE * 4) + 12}px;
+        background-size: cover;
+      ` : ''}
+
+      ${props.sprite === 'wassily' ? `
+        top: -9px;
+        left: 0;
+        width: ${TILE_SIZE * 2}px;
+        height: ${TILE_SIZE * 2}px;
+        background-size: contain;
       ` : ''}
 
       background-image: url('scenery/${props.sprite}--top.png');

@@ -182,7 +182,7 @@ const Champagne = ({
   return (
     <ChampagneWrapper
       iscurrplayer={iscurrplayer}
-      style={{ transform: `translate(${x}px, ${y}px)` }}>
+      style={{ left: `${x}px`, top: `${y}px` }}>
       <Sprite
         $direction={direction}
         $isMoving={isMoving}
