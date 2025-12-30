@@ -1,28 +1,6 @@
 import React, { useEffect } from 'react';
 import styled, { keyframes, css } from 'styled-components';
-import { TILE_SIZE } from '../constants';
-
-const COLOR_SCHEMES = {
-  brown: {
-    background: '#793F3B',
-    border: '#471d1aff',
-  },
-};
-
-const PRELOAD_IMAGES = [
-  './champagne/right0.png',
-  './champagne/right1.png',
-  './champagne/right2.png',
-  './champagne/left0.png',
-  './champagne/left1.png',
-  './champagne/left2.png',
-  './champagne/up0.png',
-  './champagne/up1.png',
-  './champagne/up2.png',
-  './champagne/down0.png',
-  './champagne/down1.png',
-  './champagne/down2.png',
-];
+import { TILE_SIZE, LAYER_LEVELS, PRELOAD_IMAGES, COLOR_SCHEMES } from '../constants';
 
 const ChampagneWrapper = styled.div`
   position: absolute;
@@ -34,7 +12,6 @@ const ChampagneWrapper = styled.div`
   align-items: center;
   justify-content: center;
   pointer-events: none; // Let clicks pass through to maze if needed
-  z-index: 10;
 `;
 
 // Placeholder for sprite
@@ -58,88 +35,88 @@ const Sprite = styled.div`
     background-position: calc(50% + 6px) center;
     background-repeat: no-repeat;
 
-    z-index: -1;
+    z-index: ${LAYER_LEVELS.cat};
 
     ${(props) =>
-      props.$direction === 'left' &&
-      css`
+    props.$direction === 'left' &&
+    css`
         background-image: url(./champagne/${(props) =>
-          props.colorscheme}/left0.png);
+        props.colorscheme}/left0.png);
         ${props.$isMoving &&
-        css`
+      css`
           animation: left-toggle 0.4s steps(1) infinite;
         `}
         @keyframes left-toggle {
           0% {
             background-image: url(./champagne/${(props) =>
-              props.colorscheme}/left1.png);
+        props.colorscheme}/left1.png);
           }
           50% {
             background-image: url(./champagne/${(props) =>
-              props.colorscheme}/left2.png);
+        props.colorscheme}/left2.png);
           }
         }
       `}
 
     ${(props) =>
-      props.$direction === 'right' &&
-      css`
+    props.$direction === 'right' &&
+    css`
         background-image: url(./champagne/${(props) =>
-          props.colorscheme}/right0.png);
+        props.colorscheme}/right0.png);
         ${props.$isMoving &&
-        css`
+      css`
           animation: right-toggle 0.4s steps(1) infinite;
         `}
         @keyframes right-toggle {
           0% {
             background-image: url(./champagne/${(props) =>
-              props.colorscheme}/right1.png);
+        props.colorscheme}/right1.png);
           }
           50% {
             background-image: url(./champagne/${(props) =>
-              props.colorscheme}/right2.png);
+        props.colorscheme}/right2.png);
           }
         }
       `}
     
     ${(props) =>
-      props.$direction === 'up' &&
-      css`
+    props.$direction === 'up' &&
+    css`
         background-image: url(./champagne/${(props) =>
-          props.colorscheme}/up0.png);
+        props.colorscheme}/up0.png);
         ${props.$isMoving &&
-        css`
+      css`
           animation: up-toggle 0.4s steps(1) infinite;
         `}
         @keyframes up-toggle {
           0% {
             background-image: url(./champagne/${(props) =>
-              props.colorscheme}/up2.png);
+        props.colorscheme}/up2.png);
           }
           50% {
             background-image: url(./champagne/${(props) =>
-              props.colorscheme}/up1.png);
+        props.colorscheme}/up1.png);
           }
         }
       `}
     
     ${(props) =>
-      props.$direction === 'down' &&
-      css`
+    props.$direction === 'down' &&
+    css`
         background-image: url(./champagne/${(props) =>
-          props.colorscheme}/down0.png);
+        props.colorscheme}/down0.png);
         ${props.$isMoving &&
-        css`
+      css`
           animation: down-toggle 0.4s steps(1) infinite;
         `}
         @keyframes down-toggle {
           0% {
             background-image: url(./champagne/${(props) =>
-              props.colorscheme}/down1.png);
+        props.colorscheme}/down1.png);
           }
           50% {
             background-image: url(./champagne/${(props) =>
-              props.colorscheme}/down2.png);
+        props.colorscheme}/down2.png);
           }
         }
       `}
@@ -153,7 +130,8 @@ const GamerTag = styled.div`
   left: 50%;
   transform: translateX(-50%);
 
-  color: white;
+  color: ${(props) =>
+    COLOR_SCHEMES[props.colorscheme].text || '#c5bfbfff'};
   font-size: 22px;
   font-weight: bold;
   text-align: center;
@@ -168,7 +146,7 @@ const GamerTag = styled.div`
     COLOR_SCHEMES[props.colorscheme].border || '#471d1aff'};
   pointer-events: none; // Let clicks pass through to maze if needed
 
-  z-index: 10;
+  z-index: ${LAYER_LEVELS.gamertags};
 
   &::after,
   &::before {

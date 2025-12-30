@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { LAYER_LEVELS } from '../constants';
 
 const DPadContainer = styled.div`
   position: fixed;
@@ -13,7 +14,7 @@ const DPadContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 100;
+  z-index: ${LAYER_LEVELS.controls};
   opacity: 0.7;
 `;
 
@@ -111,7 +112,7 @@ const CenterCircle = styled.div`
   width: 50px;
   height: 50px;
   background: rgba(255, 255, 255, 0.1);
-  z-index: -1;
+  z-index: ${LAYER_LEVELS.controls - 1};
 `;
 
 const DPad = ({ onInput }) => {

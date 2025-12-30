@@ -13,8 +13,10 @@ const GameContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
   height: 100%;
   width: 100%;
+
   background-color: ${(props) => props.theme['background-color--base']};
   color: ${(props) => props.theme['text-color--base']};
   overflow: hidden; /* Prevent scrollbars when zooming/panning */
@@ -48,7 +50,7 @@ function App() {
   const [hasRegistered, setHasRegistered] = useState(false);
   const [playerProfile, setPlayerProfile] = useState({
     playerName: 'Champagne',
-    playerColorScheme: 'brown',
+    playerColorScheme: 'black',
     playerUniqueID: null,
   });
 
@@ -121,7 +123,7 @@ function App() {
             y={y}
             direction={direction}
             isMoving={isMoving}
-            iscurrplayer={true}
+            iscurrplayer="true"
             playerprofile={playerProfile}
           />
         </GameArea>

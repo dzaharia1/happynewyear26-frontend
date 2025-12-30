@@ -5,24 +5,24 @@ export const useGameLoop = () => {
   // Find start position
   const startRow = LEVEL.findIndex(row => row.includes('startpos'));
   const startCol = LEVEL[startRow].indexOf('startpos');
-  
+
   const startX = startCol * TILE_SIZE;
   const startY = startRow * TILE_SIZE;
 
   const posRef = useRef({ x: startX, y: startY });
   const [renderPos, setRenderPos] = useState({ x: startX, y: startY });
-  
+
   // Track inputs
   const currentInputRef = useRef({ x: 0, y: 0 }); // Intended direction
   const lastInputRef = useRef({ x: 0, y: 0 });    // Last valid move direction
-  
+
   // Animation state for sprites
   const [direction, setDirection] = useState('right'); // 'up', 'down', 'left', 'right'
   const [isMoving, setIsMoving] = useState(false);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
-      switch(e.key) {
+      switch (e.key) {
         case 'ArrowUp':
         case 'w':
         case 'W':
@@ -56,7 +56,7 @@ export const useGameLoop = () => {
       // Let's stick to: if key released, stop input IF it was the active one.
       // Actually, let's implement continuous movement while key is held for now, 
       // as it's safer for a first pass than auto-move.
-      
+
       // Simple WASD/Arrow release check
       if (
         (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') && currentInputRef.current.y === -1 ||
@@ -91,8 +91,8 @@ export const useGameLoop = () => {
       // We check the four corners of the player's bounding box against the grid
       // Player is TILE_SIZE x TILE_SIZE
       // A slight buffer allows sliding through gaps easier
-      const buffer = PLAYER_COLLISION_BUFFER; 
-      
+      const buffer = PLAYER_COLLISION_BUFFER;
+
       const checkCollision = (checkX, checkY) => {
         // Get grid indices for top-left, top-right, bottom-left, bottom-right
         const leftCol = Math.floor((checkX + buffer) / TILE_SIZE);
@@ -103,13 +103,13 @@ export const useGameLoop = () => {
         // Check if any of these tiles are walls (1, 2, 3, or 4)
         // We need to handle out of bounds too
         if (
-          topRow < 0 || leftCol < 0 || 
+          topRow < 0 || leftCol < 0 ||
           bottomRow >= LEVEL.length || rightCol >= LEVEL[0].length
         ) {
           return true; // Out of bounds is a collision
         }
 
-        const isWall = (tile) => tile >= 1 && tile <= 4;
+        const isWall = (tile) => tile !== 0 && tile !== 'startpos';
 
         const topLeft = isWall(LEVEL[topRow][leftCol]);
         const topRight = isWall(LEVEL[topRow][rightCol]);
@@ -148,13 +148,13 @@ export const useGameLoop = () => {
   // Better: No dependency, use refs for everything inside.
   // But we need 'renderPos' in dependency if we were reading it, but we read posRef.
   // So [] is fine, or better yet, remove the dependency on renderPos in the effect.
-  
+
   const setManualInput = (input) => {
     currentInputRef.current = input;
   };
 
-  return { 
-    x: renderPos.x, 
+  return {
+    x: renderPos.x,
     y: renderPos.y,
     direction,
     isMoving,

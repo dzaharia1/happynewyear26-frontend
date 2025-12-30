@@ -1,32 +1,75 @@
 import React from 'react';
 import styled from 'styled-components';
-import { LEVEL, TILE_SIZE } from '../constants';
+import { LEVEL, TILE_SIZE, LAYER_LEVELS } from '../constants';
 
 const MazeContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(${LEVEL[0].length}, ${TILE_SIZE}px);
   width: fit-content;
   position: relative;
-  border: 4px solid transparent;
+  background-color: #1919a6;
+
+  &:after {
+    // opacity: .5;
+    content: "";
+    position: absolute;
+    top: -${TILE_SIZE}px;
+    left: -${TILE_SIZE}px;
+    width: calc(100% + ${TILE_SIZE * 2}px);
+    height: calc(100% + ${TILE_SIZE * 2}px);
+    background-image: url('mapbackground.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
 `;
 
 const Tile = styled.div`
   width: ${TILE_SIZE}px;
   height: ${TILE_SIZE}px;
-  display: flex;
+  display: flex; 
   align-items: center;
   justify-content: center;
 `;
 
-const Wall = styled(Tile)`
-  // background-color: #1919a6; // Classic arcade blue
-  border-width: 1px 1px 4px 1px;
-  background-image: url('walltiles/wall--${(props) => props.color}.png');
-  background-size: contain;
-  background-position: center;
-  background-repeat: no-repeat;
+const Scenery = styled(Tile)`
+  position: relative;
   box-sizing: border-box;
-  border-radius: 4px;
+  overflow: visible;
+
+  ${(props) => props.sprite ? `
+    &:after {
+      content: "";
+      position: absolute;
+
+      ${props.sprite === 'diningtable' ? `
+        top: -12px;
+        left: 0px;
+        width: ${TILE_SIZE * 5}px;
+        height: ${TILE_SIZE * 3}px;
+        background-size: cover;
+      ` : ''}
+
+      ${props.sprite === 'kitchenisland' ? `
+        top: -12px;
+        left: -3px;
+        width: ${TILE_SIZE * 7 + 18}px;
+        height: ${TILE_SIZE * 2 + 4}px;
+        background-size: ${TILE_SIZE * 7 + 18}px;
+      ` : ''}
+
+      ${props.sprite === 'kitchencounter' ? `
+        top: -15px;
+        left: 0;
+        width: ${TILE_SIZE * 7}px;
+        height: ${TILE_SIZE * 2 + 27}px;
+        background-size: ${TILE_SIZE * 7}px;
+      ` : ''}
+
+      background-image: url('scenery/${props.sprite}--top.png');
+      background-repeat: no-repeat;
+      z-index: ${LAYER_LEVELS.furniture};
+    }
+  ` : ''}
 `;
 
 const Floor = styled(Tile)`
@@ -34,10 +77,10 @@ const Floor = styled(Tile)`
 `;
 
 const Dot = styled.div`
-  width: 6px;
-  height: 6px;
-  background-color: #ffb8ae;
-  border-radius: 50%;
+width: 6px;
+height: 6px;
+background - color: #ffb8ae;
+border - radius: 50 %;
 `;
 
 const Maze = React.memo(() => {
@@ -45,42 +88,13 @@ const Maze = React.memo(() => {
     <MazeContainer>
       {LEVEL.flat().map((tileType, index) => {
         // 1 is red Wall
-        if (tileType === 1) {
-          return <Wall key={index} color="red" />;
+        if (tileType === 0) {
+          return <Scenery key={index} />;
+        } else if (tileType != 0 && tileType != 1) {
+          return <Scenery key={index} sprite={tileType} />;
+        } else {
+          return <Floor key={index} />;
         }
-
-        if (tileType === 2) {
-          return <Wall key={index} color="yellow" />;
-        }
-
-        if (tileType === 3) {
-          return <Wall key={index} color="tan" />;
-        }
-
-        if (tileType === 4) {
-          return <Wall key={index} color="blue" />;
-        }
-
-        // 2 is Dot
-        if (tileType === 5) {
-          return (
-            <Floor key={index}>
-              <Dot />
-            </Floor>
-          );
-        }
-
-        // // 4 is Hot Dog
-        // if (tileType === 6) {
-        //   return (
-        //     <Floor key={index}>
-        //       <HotDog />
-        //     </Floor>
-        //   );
-        // }
-
-        // 0 (Empty) and 3 (Start) are just Floor
-        return <Floor key={index} />;
       })}
     </MazeContainer>
   );
