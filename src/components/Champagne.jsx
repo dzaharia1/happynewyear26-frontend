@@ -53,7 +53,7 @@ const Sprite = styled.div`
     left: 50%;
     transform: translate(-50%, -50%);
 
-    background: url(./champagne/right1.png);
+    background: url(./champagne/${(props) => props.colorscheme}/right1.png);
     background-size: contain;
     background-position: calc(50% + 6px) center;
     background-repeat: no-repeat;
@@ -63,17 +63,20 @@ const Sprite = styled.div`
     ${(props) =>
       props.$direction === 'left' &&
       css`
-        background-image: url(./champagne/left0.png);
+        background-image: url(./champagne/${(props) =>
+          props.colorscheme}/left0.png);
         ${props.$isMoving &&
         css`
           animation: left-toggle 0.4s steps(1) infinite;
         `}
         @keyframes left-toggle {
           0% {
-            background-image: url(./champagne/left1.png);
+            background-image: url(./champagne/${(props) =>
+              props.colorscheme}/left1.png);
           }
           50% {
-            background-image: url(./champagne/left2.png);
+            background-image: url(./champagne/${(props) =>
+              props.colorscheme}/left2.png);
           }
         }
       `}
@@ -81,17 +84,20 @@ const Sprite = styled.div`
     ${(props) =>
       props.$direction === 'right' &&
       css`
-        background-image: url(./champagne/right0.png);
+        background-image: url(./champagne/${(props) =>
+          props.colorscheme}/right0.png);
         ${props.$isMoving &&
         css`
           animation: right-toggle 0.4s steps(1) infinite;
         `}
         @keyframes right-toggle {
           0% {
-            background-image: url(./champagne/right1.png);
+            background-image: url(./champagne/${(props) =>
+              props.colorscheme}/right1.png);
           }
           50% {
-            background-image: url(./champagne/right2.png);
+            background-image: url(./champagne/${(props) =>
+              props.colorscheme}/right2.png);
           }
         }
       `}
@@ -99,17 +105,20 @@ const Sprite = styled.div`
     ${(props) =>
       props.$direction === 'up' &&
       css`
-        background-image: url(./champagne/up0.png);
+        background-image: url(./champagne/${(props) =>
+          props.colorscheme}/up0.png);
         ${props.$isMoving &&
         css`
           animation: up-toggle 0.4s steps(1) infinite;
         `}
         @keyframes up-toggle {
           0% {
-            background-image: url(./champagne/up2.png);
+            background-image: url(./champagne/${(props) =>
+              props.colorscheme}/up2.png);
           }
           50% {
-            background-image: url(./champagne/up1.png);
+            background-image: url(./champagne/${(props) =>
+              props.colorscheme}/up1.png);
           }
         }
       `}
@@ -117,17 +126,20 @@ const Sprite = styled.div`
     ${(props) =>
       props.$direction === 'down' &&
       css`
-        background-image: url(./champagne/down0.png);
+        background-image: url(./champagne/${(props) =>
+          props.colorscheme}/down0.png);
         ${props.$isMoving &&
         css`
           animation: down-toggle 0.4s steps(1) infinite;
         `}
         @keyframes down-toggle {
           0% {
-            background-image: url(./champagne/down1.png);
+            background-image: url(./champagne/${(props) =>
+              props.colorscheme}/down1.png);
           }
           50% {
-            background-image: url(./champagne/down2.png);
+            background-image: url(./champagne/${(props) =>
+              props.colorscheme}/down2.png);
           }
         }
       `}
@@ -142,16 +154,18 @@ const GamerTag = styled.div`
   transform: translateX(-50%);
 
   color: white;
-  font-size: 18px;
+  font-size: 22px;
   font-weight: bold;
   text-align: center;
   text-transform: uppercase;
 
-  background-color: ${(props) => COLOR_SCHEMES[props.colorscheme].background};
+  background-color: ${(props) =>
+    COLOR_SCHEMES[props.colorscheme].background || '#793F3B'};
   padding: 2px 6px;
   border-style: solid;
   border-width: ${baseBorderWidth}px 0 ${baseBorderWidth * 2}px 0;
-  border-color: ${(props) => COLOR_SCHEMES[props.colorscheme].border};
+  border-color: ${(props) =>
+    COLOR_SCHEMES[props.colorscheme].border || '#471d1aff'};
   pointer-events: none; // Let clicks pass through to maze if needed
 
   z-index: 10;
@@ -175,7 +189,7 @@ const GamerTag = styled.div`
 const Champagne = ({
   x,
   y,
-  isCurrPlayer,
+  iscurrplayer,
   playerprofile,
   direction,
   isMoving,
@@ -189,10 +203,16 @@ const Champagne = ({
 
   return (
     <ChampagneWrapper
-      isCurrPlayer={isCurrPlayer}
+      iscurrplayer={iscurrplayer}
       style={{ transform: `translate(${x}px, ${y}px)` }}>
-      <Sprite $direction={direction} $isMoving={isMoving} />
-      <GamerTag colorscheme={colorscheme}>{playername}</GamerTag>
+      <Sprite
+        $direction={direction}
+        $isMoving={isMoving}
+        colorscheme={playerprofile.playerColorScheme}
+      />
+      <GamerTag colorscheme={playerprofile.playerColorScheme}>
+        {playerprofile.playerName}
+      </GamerTag>
     </ChampagneWrapper>
   );
 };

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 import Maze from './components/Maze';
 import Champagne from './components/Champagne';
 import DPad from './components/DPad';
 import { useGameLoop } from './hooks/useGameLoop';
 import { LEVEL, TILE_SIZE, ZOOM_LEVEL } from './constants';
+import PlayerIntro from './components/PlayerIntro';
+import theme from './theme';
 
 const GameContainer = styled.div`
   display: flex;
@@ -13,8 +15,8 @@ const GameContainer = styled.div`
   justify-content: center;
   height: 100%;
   width: 100%;
-  background-color: #8eb6a4;
-  color: white;
+  background-color: ${(props) => props.theme['background-color--base']};
+  color: ${(props) => props.theme['text-color--base']};
   overflow: hidden; /* Prevent scrollbars when zooming/panning */
 `;
 
@@ -43,9 +45,10 @@ const Instructions = styled.p`
 
 function App() {
   const { x, y, direction, isMoving, setManualInput } = useGameLoop();
+  const [hasRegistered, setHasRegistered] = useState(false);
   const [playerProfile, setPlayerProfile] = useState({
-    playerName: null,
-    playerColorScheme: null,
+    playerName: 'Champagne',
+    playerColorScheme: 'brown',
     playerUniqueID: null,
   });
 
@@ -78,9 +81,18 @@ function App() {
 
   const transformStyle = `translate(${centerX}px, ${centerY}px) scale(${ZOOM_LEVEL}) translate(-${playerPixelX}px, -${playerPixelY}px)`;
 
+  const registerPlayer = (name, colorScheme) => {
+    setPlayerProfile({
+      playerName: name,
+      playerColorScheme: colorScheme,
+      playerUniqueID: null,
+    });
+    setHasRegistered(true);
+  };
+
   return (
-    <>
-      {playerProfile.playerName == null && <PlayerIntro />}
+    <ThemeProvider theme={theme}>
+      {/* {!hasRegistered && <PlayerIntro onSubmit={registerPlayer} />} */}
       <GameContainer>
         <div
           style={{
@@ -109,13 +121,13 @@ function App() {
             y={y}
             direction={direction}
             isMoving={isMoving}
-            isCurrPlayer={true}
+            iscurrplayer={true}
             playerprofile={playerProfile}
           />
         </GameArea>
         <DPad onInput={setManualInput} />
       </GameContainer>
-    </>
+    </ThemeProvider>
   );
 }
 

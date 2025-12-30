@@ -1,3 +1,6 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Bytesized&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Bytesized&family=Jacquard+12&family=Pixelify+Sans:wght@400..700&display=swap');
+
 * {
   box-sizing: border-box;
 }
@@ -9,10 +12,26 @@ html, body, #root {
   padding: 0;
   overflow: hidden; /* Prevent scrolling globally */
   position: fixed; /* Lock body for iOS to prevent rubber-banding */
+  font-size: 16px;
+  font-family: "Bytesized", sans-serif;
+}
+
+p,
+h1,
+h2,
+h3,
+h4 {
+  font-family: "Pixelify Sans", sans-serif;
+  margin: 0;
+}
+
+p,
+label {
+  font-size: 16px;
 }
 
 body {
-  font-family: "lores-9-plus-narrow", sans-serif;
+  font-family: "Bytesized", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
