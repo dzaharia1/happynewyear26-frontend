@@ -60,6 +60,8 @@ function App() {
     playerName: 'Champagne',
     playerColorScheme: 'black',
     playerUniqueID: null,
+    chatmessage: null,
+    chatTimestamp: null,
   });
 
   // Track all other players. Key = socket.id, Value = player object
@@ -98,8 +100,23 @@ function App() {
     });
 
     socket.on('chatMessage', ({ id, message }) => {
-      console.log('Chat message:', message);
-      // setChatMessages((prev) => [...prev, { id, message }]);
+      console.log('Chat message:', message, 'from', id);
+      const ts = Date.now();
+
+      // If it's us
+      if (id === socket.id) {
+        setPlayerProfile((prev) => ({ ...prev, chatmessage: message, chatTimestamp: ts }));
+      } else {
+        // It's someone else
+        setPlayers((prev) => {
+          // Use functional update to ensure we don't lose key if player doesn't exist yet (though they should)
+          if (!prev[id]) return prev;
+          return {
+            ...prev,
+            [id]: { ...prev[id], chatmessage: message, chatTimestamp: ts }
+          }
+        });
+      }
     });
 
     socket.on('playerLeft', ({ id }) => {
@@ -197,7 +214,7 @@ function App() {
   };
 
   const sendMessage = (message) => {
-    socket.emit('chatMessage', { message });
+    socket.emit('chatMessage', message);
   };
 
   return (
@@ -243,6 +260,8 @@ function App() {
                     playerName: p.name,
                     playerColorScheme: p.color,
                   }}
+                  chatmessage={p.chatmessage}
+                  chatTimestamp={p.chatTimestamp}
                 />
               ))}
 
@@ -254,6 +273,8 @@ function App() {
               isMoving={isMoving}
               iscurrplayer="true"
               playerprofile={playerProfile}
+              chatmessage={playerProfile.chatmessage}
+              chatTimestamp={playerProfile.chatTimestamp}
             />
           </GameArea>
           <DPad onInput={setManualInput} />

@@ -159,6 +159,7 @@ const Champagne = ({
   chatmessage,
   direction,
   isMoving,
+  chatTimestamp,
 }) => {
   const [showChatMessage, setShowChatMessage] = useState(false);
 
@@ -172,9 +173,10 @@ const Champagne = ({
   useEffect(() => {
     if (chatmessage) {
       setShowChatMessage(true);
-      setTimeout(() => setShowChatMessage(false), 7000);
+      const timer = setTimeout(() => setShowChatMessage(false), 4000);
+      return () => clearTimeout(timer);
     }
-  }, [chatmessage]);
+  }, [chatmessage, chatTimestamp]);
 
   return (
     <ChampagneWrapper
@@ -186,7 +188,7 @@ const Champagne = ({
         colorscheme={playerprofile.playerColorScheme}
       />
       <GamerTag colorscheme={playerprofile.playerColorScheme}>
-        {showChatMessage ? chatmessage : playerprofile.playerName}
+        {playerprofile.playerName + (showChatMessage ? ': ' + chatmessage : '')}
       </GamerTag>
     </ChampagneWrapper>
   );
