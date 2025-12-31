@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import Button from './inputs/Button';
 import Input from './inputs/Input';
+import UILabel from './UILabel';
 import { TILE_SIZE, COLOR_SCHEMES } from '../constants';
 import { theme } from '../theme';
 
@@ -140,46 +141,46 @@ const CatSample = styled.div`
   }
 `;
 
-const baseBorderWidth = 3;
-const CatSampleTag = styled.div`
-  position: relative;
-  color: white;
-  font-size: 22px;
-  font-weight: bold;
-  text-align: center;
-  text-transform: uppercase;
+// const baseBorderWidth = 3;
+// const CatSampleTag = styled.div`
+//   position: relative;
+//   color: white;
+//   font-size: 22px;
+//   font-weight: bold;
+//   text-align: center;
+//   text-transform: uppercase;
 
-  background-color: ${(props) =>
-    COLOR_SCHEMES[props.colorscheme].background || '#793F3B'
-  };
-  padding: 2px 6px;
-  border-style: solid;
-  border-width: ${baseBorderWidth}px 0 ${baseBorderWidth * 2}px 0;
-  border-color: ${(props) =>
-    COLOR_SCHEMES[props.colorscheme].border || '#471d1aff'
-  };
-  color: ${(props) =>
-    COLOR_SCHEMES[props.colorscheme].text || '#471d1aff'
-  };
-  pointer-events: none; // Let clicks pass through to maze if needed
+//   background-color: ${(props) =>
+//     COLOR_SCHEMES[props.colorscheme].background || '#793F3B'
+//   };
+//   padding: 2px 6px;
+//   border-style: solid;
+//   border-width: ${baseBorderWidth}px 0 ${baseBorderWidth * 2}px 0;
+//   border-color: ${(props) =>
+//     COLOR_SCHEMES[props.colorscheme].border || '#471d1aff'
+//   };
+//   color: ${(props) =>
+//     COLOR_SCHEMES[props.colorscheme].text || '#471d1aff'
+//   };
+//   pointer-events: none; // Let clicks pass through to maze if needed
 
-  z-index: 10;
+//   z-index: 10;
 
-  &::after,
-  &::before {
-    position: absolute;
-    content: '';
-    right: 100%;
-    top: calc(0px - ${baseBorderWidth}px + 2px);
-    height: calc(100% + ${baseBorderWidth * 2}px - 2px);
-    width: ${baseBorderWidth}px;
-    background-color: ${(props) => COLOR_SCHEMES[props.colorscheme].border};
-  }
+//   &::after,
+//   &::before {
+//     position: absolute;
+//     content: '';
+//     right: 100%;
+//     top: calc(0px - ${baseBorderWidth}px + 2px);
+//     height: calc(100% + ${baseBorderWidth * 2}px - 2px);
+//     width: ${baseBorderWidth}px;
+//     background-color: ${(props) => COLOR_SCHEMES[props.colorscheme].border};
+//   }
 
-  &::after {
-    left: 100%;
-  }
-`;
+//   &::after {
+//     left: 100%;
+//   }
+// `;
 
 const CatSampleImage = styled.img`
   width: ${TILE_SIZE * 2}px;
@@ -215,8 +216,6 @@ export const PlayerIntro = ({ onSubmit }) => {
       {introStep === 0 && (
         <>
           <IntroText>You have been cordially invited to</IntroText>
-          {/* <Title>Champagne's</Title>
-          <SubTitle>Midnight Meow</SubTitle> */}
           <IntroBlast src="titlecard.png" />
           <Button onClick={() => setIntroStep(1)}>Get Started</Button>
         </>
@@ -247,9 +246,7 @@ export const PlayerIntro = ({ onSubmit }) => {
               }
               direction="left" />
             <CatSample>
-              <CatSampleTag colorscheme={colorSchemeChoice}>
-                {playerName || 'You'}
-              </CatSampleTag>
+              <UILabel colorscheme={COLOR_SCHEMES[colorSchemeChoice].name} text={playerName || 'You'} />
               <CatSampleImage
                 src={`./champagne/${COLOR_SCHEMES[colorSchemeChoice].name}/right0.png`}
               />
