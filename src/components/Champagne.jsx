@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled, { keyframes, css } from 'styled-components';
 import UILabel from './UILabel';
+import Item from './Item';
 import { TILE_SIZE, LAYER_LEVELS, PRELOAD_IMAGES, COLOR_SCHEMES } from '../constants';
 
 const ChampagneWrapper = styled.div`
@@ -119,9 +120,11 @@ const Champagne = ({
   chatmessage,
   direction,
   isMoving,
+  item = 'champagneglass',
   chatTimestamp,
 }) => {
   const [showChatMessage, setShowChatMessage] = useState(false);
+  const [pickupItem, setPickupItem] = useState('champagneglass');
 
   useEffect(() => {
     PRELOAD_IMAGES.forEach((src) => {
@@ -148,6 +151,7 @@ const Champagne = ({
         colorscheme={playerprofile.playerColorScheme}
       />
       <UILabel colorscheme={playerprofile.playerColorScheme} text={playerprofile.playerName + (showChatMessage ? ': ' + chatmessage : '')} />
+      {/* {item !== 'none' && <Item item={pickupItem} />} */}
     </ChampagneWrapper>
   );
 };

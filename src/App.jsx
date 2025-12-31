@@ -5,12 +5,14 @@ import Maze from './components/Maze';
 import Champagne from './components/Champagne';
 import DPad from './components/controls/DPad';
 import { useGameLoop } from './hooks/useGameLoop';
-import { LEVEL, TILE_SIZE, ZOOM_LEVEL } from './constants';
+import { LEVEL, TILE_SIZE, ZOOM_LEVEL, ITEMLOCATIONS, PICKUP_THRESHOLD } from './constants';
 import ControllerButton from './components/controls/ControllerButton';
 import PlayerIntro from './components/PlayerIntro';
 import Overlay from './components/Overlay';
 import ChatForm from './components/ChatForm';
 import NotificationArea from './components/NotificationArea';
+import WelcomeLetter from './components/WelcomeLetter';
+import PickupObjectIndicator from './components/PickupObjectIndicator';
 import theme from './theme';
 
 
@@ -55,6 +57,7 @@ const Instructions = styled.p`
 
 function App() {
   const [showChatModal, setShowChatModal] = useState(false);
+  const [showWelcomeLetterModal, setShowWelcomeLetterModal] = useState(false);
   const { x, y, direction, isMoving, setManualInput } = useGameLoop();
   const [hasRegistered, setHasRegistered] = useState(false);
   const [playerProfile, setPlayerProfile] = useState({
@@ -229,6 +232,43 @@ function App() {
     socket.emit('chatMessage', message);
   };
 
+  // Check for nearby pickup items
+  const activeItem = React.useMemo(() => {
+    let closestItem = null;
+    let minDistance = Infinity;
+
+    // Player center logic matches the one used for camera centering
+    const pCenterX = x + TILE_SIZE / 2;
+    const pCenterY = y + TILE_SIZE / 2;
+
+    for (let r = 0; r < ITEMLOCATIONS.length; r++) {
+      for (let c = 0; c < ITEMLOCATIONS[r].length; c++) {
+        const item = ITEMLOCATIONS[r][c];
+        if (item !== 0) {
+          const itemCenterX = c * TILE_SIZE + TILE_SIZE / 2;
+          const itemCenterY = r * TILE_SIZE + TILE_SIZE / 2;
+
+          const dist = Math.sqrt(
+            Math.pow(pCenterX - itemCenterX, 2) + Math.pow(pCenterY - itemCenterY, 2)
+          );
+
+          if (dist < PICKUP_THRESHOLD && dist < minDistance) {
+            minDistance = dist;
+            closestItem = { r, c, type: item, x: c * TILE_SIZE, y: r * TILE_SIZE };
+          }
+        }
+      }
+    }
+    return closestItem;
+  }, [x, y]);
+
+  const interactWithItem = (item) => {
+    console.log('Interacting with item:', item);
+    if (item === 'welcomeletter') {
+      setShowWelcomeLetterModal(true);
+    }
+  };
+
   return (
     <ThemeProvider theme={theme}>
       {!hasRegistered ? (
@@ -288,12 +328,27 @@ function App() {
               chatmessage={playerProfile.chatmessage}
               chatTimestamp={playerProfile.chatTimestamp}
             />
+            {activeItem && (
+              <PickupObjectIndicator x={activeItem.x} y={activeItem.y} />
+            )}
           </GameArea>
           <DPad onInput={setManualInput} />
-          <ControllerButton variant="grab" onClick={() => { }} />
+          <ControllerButton
+            variant="grab"
+            disabled={!activeItem}
+            onClick={() => {
+              if (activeItem) {
+                console.log('Grabbed item:', activeItem);
+                interactWithItem(activeItem.type);
+              }
+            }}
+          />
           <ControllerButton variant="chat" onClick={() => { setShowChatModal(true) }} />
           {showChatModal && <Overlay>
             <ChatForm sendMessage={sendMessage} setShowChatModal={setShowChatModal} />
+          </Overlay>}
+          {showWelcomeLetterModal && <Overlay>
+            <WelcomeLetter setShowWelcomeLetterModal={setShowWelcomeLetterModal} />
           </Overlay>}
           {/* <NotificationArea notifications={notifications} /> */}
         </GameContainer>

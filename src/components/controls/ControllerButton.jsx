@@ -32,12 +32,12 @@ const ControllerButtonItself = styled.button`
   }
 `;
 
-const ControllerButton = ({ onClick, variant }) => {
-    return (
-        <ControllerButtonItself onClick={onClick} variant={variant}>
+const ControllerButton = ({ onClick, variant, disabled }) => {
+  return (
+    <ControllerButtonItself onClick={onClick} variant={variant} disabled={disabled}>
 
-        </ControllerButtonItself>
-    );
+    </ControllerButtonItself>
+  );
 };
 
 export default ControllerButton;

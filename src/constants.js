@@ -2,6 +2,7 @@ export const TILE_SIZE = 54; // pixels
 export const PLAYER_SPEED = 3; // pixels per frame (must be a divisor of TILE_SIZE for smooth grid alignment)
 export const PLAYER_COLLISION_BUFFER = 8; // pixels to inset from the tile edges for collision detection
 export const ZOOM_LEVEL = .75;
+export const PICKUP_THRESHOLD = TILE_SIZE * 1.5;
 
 export const LAYER_LEVELS = {
   cat: 900,
@@ -45,8 +46,6 @@ export const ITEMLOCATIONS = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 'glass', 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 'glass', 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -54,6 +53,8 @@ export const ITEMLOCATIONS = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 'welcomeletter', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],

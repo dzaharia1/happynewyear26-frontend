@@ -44,36 +44,6 @@ const IntroText = styled.h3`
   // max-width: 500px;
 `;
 
-// const Title = styled.h1`
-//   color: ${(props) => props.theme['intro-flow-text']};
-//   font-size: 3rem;
-//   font-family: 'pixelify sans', sans-serif;
-//   text-transform: uppercase;
-//   text-align: center;
-//   font-size: 3rem;
-//   margin: 0 0 -.5rem 0;
-//   width: 90%;
-//   max-width: 500px;
-
-//   @media (min-width: 768px) {
-//     font-size: 5rem;
-//   }
-// `;
-
-// const SubTitle = styled.h3`
-//   color: ${(props) => props.theme['intro-flow-text']};
-//   font-size: 2rem;
-//   font-family: 'pixelify sans', sans-serif;
-//   font-size: 2.5rem;
-//   text-transform: uppercase;
-//   text-align: center;
-//   margin: 0 0 4rem 0;
-
-//   @media (min-width: 768px) {
-//     font-size: 3rem;
-//   }
-// `;
-
 const Label = styled.p`
   margin-bottom: -${(props) => props.theme.spacing.md};
   color: ${(props) => props.theme['intro-flow-text-secondary']};
