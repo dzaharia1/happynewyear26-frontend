@@ -22,33 +22,100 @@ const PlayerIntroContainer = styled.div`
   justify-content: center;
   height: 100vh;
   gap: ${(props) => props.theme.spacing.lg};
-  background-color: ${(props) => props.theme['background-color--base']};
+  background-color: ${(props) => props.theme['intro-flow-background']};
 `;
 
-const TitleBlast = styled.img`
-  width: 100%;
-  max-width: 400px;
-  height: auto;
+const IntroText = styled.h3`
+  color: ${(props) => props.theme['intro-flow-text-secondary']};
+  font-size: 2rem;
+  font-family: 'bytesized', sans-serif;
+  font-size: 2rem;
+  text-transform: uppercase;
+  margin: 0;
+`;
+
+const Title = styled.h1`
+  color: ${(props) => props.theme['intro-flow-text']};
+  font-size: 4rem;
+  font-family: 'pixelify sans', sans-serif;
+  text-transform: uppercase;
+  margin: 0;
+`;
+
+const SubTitle = styled.h3`
+  color: ${(props) => props.theme['intro-flow-text']};
+  font-size: 2rem;
+  font-family: 'pixelify sans', sans-serif;
+  font-size: 2rem;
+  text-transform: uppercase;
+  margin: 0;
 `;
 
 const Label = styled.p`
   margin-bottom: -${(props) => props.theme.spacing.md};
-  color: ${(props) => props.theme['text-color--base']};
+  color: ${(props) => props.theme['intro-flow-text-secondary']};
   font-size: 2rem;
+  font-family: 'bytesized', sans-serif;
+  text-transform: uppercase;
+  margin-bottom: ${(props) => props.theme.spacing.md};
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: ${(props) => props.theme.spacing.md};
+  width: 100%;
+  max-width: 500px;
 `;
 
 const CatSampleContainer = styled.div`
+  position: relative;
   display: flex;
   flex-direction: row;
-  gap: ${(props) => props.theme.spacing.xl};
+  justify-content: center;
+  align-items: center;
+  gap: ${(props) => props.theme.spacing.lg};
+  margin-bottom: ${(props) => props.theme.spacing.xl};
+
+  width: 100 %;
+  max-width: 500px;
 `;
 
 const CatSample = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: ${(props) => props.theme.spacing.sm};
+
+  background-color: ${(props) => props.theme['input-background']};
+  padding: ${(props) => props.theme.spacing.lg} ${(props) => props.theme.spacing.xxl};
+  border-width: 0 ${(props) => props.theme.inputBorderWidth}px;
+  border-color: ${(props) => props.theme['input-border-color']};
+  border-style: solid;
+    
+  &:after,
+  &:before {
+    content: '';
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    height: ${theme.inputBorderWidth}px;
+
+    background-color: ${(props) => props.theme['input-border-color']};
+  }
+
+  &:before {
+    top: -${theme.inputBorderWidth}px;
+  }
+
+  &:after {
+    bottom: -${theme.inputBorderWidth}px;
+  }
+  }
 `;
 
 const baseBorderWidth = 3;
@@ -61,14 +128,17 @@ const CatSampleTag = styled.div`
   text-transform: uppercase;
 
   background-color: ${(props) =>
-    COLOR_SCHEMES[props.colorscheme].background || '#793F3B'};
+    COLOR_SCHEMES[props.colorscheme].background || '#793F3B'
+  };
   padding: 2px 6px;
   border-style: solid;
   border-width: ${baseBorderWidth}px 0 ${baseBorderWidth * 2}px 0;
   border-color: ${(props) =>
-    COLOR_SCHEMES[props.colorscheme].border || '#471d1aff'};
+    COLOR_SCHEMES[props.colorscheme].border || '#471d1aff'
+  };
   color: ${(props) =>
-    COLOR_SCHEMES[props.colorscheme].text || '#471d1aff'};
+    COLOR_SCHEMES[props.colorscheme].text || '#471d1aff'
+  };
   pointer-events: none; // Let clicks pass through to maze if needed
 
   z-index: 10;
@@ -95,17 +165,23 @@ const CatSampleImage = styled.img`
 `;
 
 const ColorSchemeSelectorArrow = styled.button`
-  background: none;
+  background-image: ${(props) => props.direction === 'left' ? `url('leftarrow.png')` : `url('rightarrow.png')`};
+  background-size: cover;
+  background-position: center;
+  background-color: transparent;
   border: none;
   font-family: 'Bytesized';
   font-size: 3rem;
   cursor: pointer;
   color: ${(props) => props.theme['text-color--base']};
+  width: 90px;
+  height: 40px;
 `;
 
 export const PlayerIntro = ({ onSubmit }) => {
   const [playerName, setPlayerName] = useState('');
   const [colorSchemeChoice, setColorSchemeChoice] = useState(0);
+  const [introStep, setIntroStep] = useState(0);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -114,46 +190,63 @@ export const PlayerIntro = ({ onSubmit }) => {
 
   return (
     <PlayerIntroContainer>
-      <TitleBlast src="./titleblast.png" />
-      <Input
-        label="What is your name?"
-        name="name"
-        value={playerName}
-        onChange={(e) => setPlayerName(e.target.value)}
-        placeholder="Enter your name"
-        required
-      />
-      <Label>What color do you want to be?</Label>
-      <CatSampleContainer>
-        <ColorSchemeSelectorArrow
-          onClick={() =>
-            setColorSchemeChoice(
-              (prev) =>
-                (prev - 1 + COLOR_SCHEMES.length) % COLOR_SCHEMES.length,
-            )
-          }>
-          prev
-        </ColorSchemeSelectorArrow>
-        <CatSample>
-          <CatSampleTag colorscheme={colorSchemeChoice}>
-            {playerName || 'You'}
-          </CatSampleTag>
-          <CatSampleImage
-            src={`./champagne/${COLOR_SCHEMES[colorSchemeChoice].name}/right0.png`}
+      {introStep === 0 && (
+        <>
+          <IntroText>You have been cordially invited to</IntroText>
+          <Title>Champagne's</Title>
+          <SubTitle>Midnight Meow</SubTitle>
+          <Button onClick={() => setIntroStep(1)}>Get Started</Button>
+        </>
+      )}
+      {introStep === 1 && (
+        <>
+          <Input
+            label="What's your name?"
+            name="name"
+            value={playerName}
+            onChange={(e) => setPlayerName(e.target.value)}
+            placeholder="Enter your name"
+            required
           />
-        </CatSample>
-        <ColorSchemeSelectorArrow
-          onClick={() =>
-            setColorSchemeChoice(
-              (prev) =>
-                (prev + 1 + COLOR_SCHEMES.length) % COLOR_SCHEMES.length,
-            )
-          }>
-          next
-        </ColorSchemeSelectorArrow>
-      </CatSampleContainer>
-      <Button type="submit" onClick={handleSubmit}>Join the party!</Button>
-    </PlayerIntroContainer>
+          <Button onClick={() => setIntroStep(2)}>Next</Button>
+        </>
+      )}
+      {introStep === 2 && (
+        <>
+          <Label>Which cat are you?</Label>
+          <CatSampleContainer>
+            <ColorSchemeSelectorArrow
+              onClick={() =>
+                setColorSchemeChoice(
+                  (prev) =>
+                    (prev - 1 + COLOR_SCHEMES.length) % COLOR_SCHEMES.length,
+                )
+              }
+              direction="left" />
+            <CatSample>
+              <CatSampleTag colorscheme={colorSchemeChoice}>
+                {playerName || 'You'}
+              </CatSampleTag>
+              <CatSampleImage
+                src={`./champagne/${COLOR_SCHEMES[colorSchemeChoice].name}/right0.png`}
+              />
+            </CatSample >
+            <ColorSchemeSelectorArrow
+              onClick={() =>
+                setColorSchemeChoice(
+                  (prev) =>
+                    (prev + 1 + COLOR_SCHEMES.length) % COLOR_SCHEMES.length,
+                )
+              }
+              direction="right" />
+          </CatSampleContainer >
+          <ButtonContainer>
+            <Button type="submit" variant="secondary" onClick={() => setIntroStep(1)}>Back</Button>
+            <Button type="submit" onClick={handleSubmit}>Join the party!</Button>
+          </ButtonContainer>
+        </>
+      )}
+    </PlayerIntroContainer >
   );
 };
 

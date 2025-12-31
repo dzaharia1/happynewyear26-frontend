@@ -5,15 +5,19 @@
   box-sizing: border-box;
 }
 
-html, body, #root {
+html,
+body,
+#root {
   width: 100%;
   height: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden; /* Prevent scrolling globally */
-  position: fixed; /* Lock body for iOS to prevent rubber-banding */
+  overflow: hidden;
+  /* Prevent scrolling globally */
+  position: fixed;
+  /* Lock body for iOS to prevent rubber-banding */
   font-size: 16px;
-  font-family: "Bytesized", sans-serif;
+  font-family: "bytesized", sans-serif;
 }
 
 p,
@@ -31,7 +35,7 @@ label {
 }
 
 body {
-  font-family: "Bytesized", sans-serif;
+  font-family: "bytesized", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -40,4 +44,3 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-

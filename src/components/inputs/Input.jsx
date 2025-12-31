@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import theme from '../../theme';
 
 const InputContainer = styled.div`
   display: flex;
@@ -9,22 +10,60 @@ const InputContainer = styled.div`
 `;
 
 const Label = styled.label`
-  margin-bottom: 8px;
-  color: ${(props) => props.theme['text-color--base']};
+  margin-bottom: ${(props) => props.theme.spacing.lg};
+  color: ${(props) => props.theme['intro-flow-text-secondary']};
   font-size: 2rem;
+  text-transform: uppercase;
 `;
 
-const Input = styled.input`
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+const StyledInput = styled.div`
+  position: relative;
+  margin-bottom: ${(props) => props.theme.spacing.lg};
+  input {
+    border: none;
+    border-width: 0 ${theme.inputBorderWidth * 2}px;
+    border-color: #F3BA83;
+    border-style: solid;
+    padding: 40px 60px;
+    font-family: 'bytesized', sans-serif;
+    font-size: 2rem;
+    background-color: #FDF5EC;
+    text-align: center;
+    text-transform: uppercase;
+
+    &:focus {
+      outline: none;
+    }
+  }
+    
+  &:after,
+  &:before {
+      content: '';
+      position: absolute;
+      left: ${theme.inputBorderWidth}px;
+      right: ${theme.inputBorderWidth}px;
+      height: ${theme.inputBorderWidth}px;
+
+      background-color: ${(props) => props.theme['input-border-color']};
+    }
+
+    &:before {
+      top: -${theme.inputBorderWidth}px;
+    }
+
+    &:after {
+      bottom: -${theme.inputBorderWidth}px;
+    }
+  }
 `;
 
 export const InputComponent = ({ label, name, value, onChange }) => {
   return (
     <InputContainer>
       <Label htmlFor={name}>{label}</Label>
-      <Input type="text" id={name} value={value} onChange={onChange} />
+      <StyledInput>
+        <input type="text" id={name} value={value} onChange={onChange} placeholder="Like 'Dan' or 'Martha'" />
+      </StyledInput>
     </InputContainer>
   );
 };
