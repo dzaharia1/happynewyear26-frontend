@@ -40,85 +40,69 @@ const Sprite = styled.div`
     ${(props) =>
     props.$direction === 'left' &&
     css`
-        background-image: url(./champagne/${(props) =>
-        props.colorscheme}/left0.png);
+        background-image: url(./champagne/${props.colorscheme}/left0.png);
         ${props.$isMoving &&
       css`
-          animation: left-toggle 0.4s steps(1) infinite;
+          animation: ${keyframes`
+            0% {
+              background-image: url(./champagne/${props.colorscheme}/left1.png);
+            }
+            50% {
+              background-image: url(./champagne/${props.colorscheme}/left2.png);
+            }
+          `} 0.4s steps(1) infinite;
         `}
-        @keyframes left-toggle {
-          0% {
-            background-image: url(./champagne/${(props) =>
-        props.colorscheme}/left1.png);
-          }
-          50% {
-            background-image: url(./champagne/${(props) =>
-        props.colorscheme}/left2.png);
-          }
-        }
       `}
 
     ${(props) =>
     props.$direction === 'right' &&
     css`
-        background-image: url(./champagne/${(props) =>
-        props.colorscheme}/right0.png);
+        background-image: url(./champagne/${props.colorscheme}/right0.png);
         ${props.$isMoving &&
       css`
-          animation: right-toggle 0.4s steps(1) infinite;
+          animation: ${keyframes`
+            0% {
+              background-image: url(./champagne/${props.colorscheme}/right1.png);
+            }
+            50% {
+              background-image: url(./champagne/${props.colorscheme}/right2.png);
+            }
+          `} 0.4s steps(1) infinite;
         `}
-        @keyframes right-toggle {
-          0% {
-            background-image: url(./champagne/${(props) =>
-        props.colorscheme}/right1.png);
-          }
-          50% {
-            background-image: url(./champagne/${(props) =>
-        props.colorscheme}/right2.png);
-          }
-        }
       `}
     
     ${(props) =>
     props.$direction === 'up' &&
     css`
-        background-image: url(./champagne/${(props) =>
-        props.colorscheme}/up0.png);
+        background-image: url(./champagne/${props.colorscheme}/up0.png);
         ${props.$isMoving &&
       css`
-          animation: up-toggle 0.4s steps(1) infinite;
+          animation: ${keyframes`
+            0% {
+              background-image: url(./champagne/${props.colorscheme}/up2.png);
+            }
+            50% {
+              background-image: url(./champagne/${props.colorscheme}/up1.png);
+            }
+          `} 0.4s steps(1) infinite;
         `}
-        @keyframes up-toggle {
-          0% {
-            background-image: url(./champagne/${(props) =>
-        props.colorscheme}/up2.png);
-          }
-          50% {
-            background-image: url(./champagne/${(props) =>
-        props.colorscheme}/up1.png);
-          }
-        }
       `}
     
     ${(props) =>
     props.$direction === 'down' &&
     css`
-        background-image: url(./champagne/${(props) =>
-        props.colorscheme}/down0.png);
+        background-image: url(./champagne/${props.colorscheme}/down0.png);
         ${props.$isMoving &&
       css`
-          animation: down-toggle 0.4s steps(1) infinite;
+          animation: ${keyframes`
+            0% {
+              background-image: url(./champagne/${props.colorscheme}/down1.png);
+            }
+            50% {
+              background-image: url(./champagne/${props.colorscheme}/down2.png);
+            }
+          `} 0.4s steps(1) infinite;
         `}
-        @keyframes down-toggle {
-          0% {
-            background-image: url(./champagne/${(props) =>
-        props.colorscheme}/down1.png);
-          }
-          50% {
-            background-image: url(./champagne/${(props) =>
-        props.colorscheme}/down2.png);
-          }
-        }
       `}
   }
 `;
@@ -167,7 +151,7 @@ const GamerTag = styled.div`
 const Champagne = ({
   x,
   y,
-  iscurrplayer,
+  iscurrplayer = 'false',
   playerprofile,
   direction,
   isMoving,

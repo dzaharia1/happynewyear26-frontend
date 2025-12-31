@@ -1,5 +1,5 @@
 export const TILE_SIZE = 54; // pixels
-export const PLAYER_SPEED = 6; // pixels per frame (must be a divisor of TILE_SIZE for smooth grid alignment)
+export const PLAYER_SPEED = 3; // pixels per frame (must be a divisor of TILE_SIZE for smooth grid alignment)
 export const PLAYER_COLLISION_BUFFER = 8; // pixels to inset from the tile edges for collision detection
 export const ZOOM_LEVEL = .75;
 
@@ -34,6 +34,30 @@ export const LEVEL = [
   [0, 0, 0, 0, 0, 'kitchencounter', 1, 1, 1, 1, 1, 1],
   [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1],
 ];
+
+export const ITEMLOCATIONS = [
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 'glass', 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 'glass', 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+]
 
 export const PRELOAD_IMAGES = [
   './champagne/brown/right0.png',

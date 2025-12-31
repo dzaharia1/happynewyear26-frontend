@@ -45,7 +45,7 @@ const Scenery = styled(Tile)`
         top: -39px;
         left: 0px;
         width: ${TILE_SIZE * 5}px;
-        height: ${TILE_SIZE * 3}px;
+        height: ${(TILE_SIZE * 3) + 12}px;
         background-size: cover;
       ` : ''}
 

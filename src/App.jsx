@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
+import { io } from 'socket.io-client';
 import Maze from './components/Maze';
 import Champagne from './components/Champagne';
 import DPad from './components/DPad';
@@ -7,6 +8,8 @@ import { useGameLoop } from './hooks/useGameLoop';
 import { LEVEL, TILE_SIZE, ZOOM_LEVEL } from './constants';
 import PlayerIntro from './components/PlayerIntro';
 import theme from './theme';
+
+const socket = io(import.meta.env.VITE_BACKEND_URL);
 
 const GameContainer = styled.div`
   display: flex;
@@ -54,6 +57,74 @@ function App() {
     playerUniqueID: null,
   });
 
+  // Track all other players. Key = socket.id, Value = player object
+  const [players, setPlayers] = useState({});
+
+  useEffect(() => {
+    // Socket event listeners
+    socket.on('init', ({ id, players: initialPlayers }) => {
+      console.log('Initialized as player:', id);
+      setPlayerProfile((prev) => ({ ...prev, playerUniqueID: id }));
+
+      // Remove ourself from the remote players list so we don't double render
+      const { [id]: mySelf, ...others } = initialPlayers;
+      setPlayers(others);
+    });
+
+    socket.on('playerJoined', (newPlayer) => {
+      console.log('Player joined:', newPlayer);
+      setPlayers((prev) => ({ ...prev, [newPlayer.id]: newPlayer }));
+    });
+
+    socket.on('playerMoved', ({ id, x, y, direction, isMoving }) => {
+      setPlayers((prev) => {
+        if (!prev[id]) return prev; // If we don't know them yet
+        return {
+          ...prev,
+          [id]: { ...prev[id], x, y, direction, isMoving },
+        };
+      });
+    });
+
+    socket.on('playerLeft', ({ id }) => {
+      console.log('Player left:', id);
+      setPlayers((prev) => {
+        const copy = { ...prev };
+        delete copy[id];
+        return copy;
+      });
+    });
+
+    // Cleanup listeners on unmount
+    return () => {
+      socket.off('init');
+      socket.off('playerJoined');
+      socket.off('playerMoved');
+      socket.off('playerLeft');
+    };
+  }, []);
+
+  // Emit movement updates
+  const lastEmittedRef = useRef({ x: -1, y: -1, direction: '', isMoving: false });
+  useEffect(() => {
+    if (!hasRegistered) return;
+
+    // Throttle or check diff to avoid spamming if nothing changed
+    // Actually, useGameLoop updates x/y every frame if moving.
+    // We should emit if it changed.
+    const prev = lastEmittedRef.current;
+    if (
+      prev.x !== x ||
+      prev.y !== y ||
+      prev.direction !== direction ||
+      prev.isMoving !== isMoving
+    ) {
+      socket.emit('move', { x, y, direction, isMoving });
+      lastEmittedRef.current = { x, y, direction, isMoving };
+    }
+  }, [x, y, direction, isMoving, hasRegistered]);
+
+
   // Calculate camera offset to center the player
   // We want the player at the center of the viewport
   // Transform origin is 0 0, so we need to translate the world
@@ -84,11 +155,14 @@ function App() {
   const transformStyle = `translate(${centerX}px, ${centerY}px) scale(${ZOOM_LEVEL}) translate(-${playerPixelX}px, -${playerPixelY}px)`;
 
   const registerPlayer = (name, colorScheme) => {
-    setPlayerProfile({
+    // Send to backend
+    socket.emit('join', { name, color: colorScheme });
+
+    setPlayerProfile((prev) => ({
+      ...prev,
       playerName: name,
       playerColorScheme: colorScheme,
-      playerUniqueID: null,
-    });
+    }));
     setHasRegistered(true);
   };
 
@@ -120,6 +194,23 @@ function App() {
               top: 0,
             }}>
             <Maze />
+
+            {/* Render Remote Players */}
+            {Object.values(players).map((p) => (
+              <Champagne
+                key={p.id}
+                x={p.x}
+                y={p.y}
+                direction={p.direction}
+                isMoving={p.isMoving}
+                playerprofile={{
+                  playerName: p.name,
+                  playerColorScheme: p.color,
+                }}
+              />
+            ))}
+
+            {/* Render Local Player */}
             <Champagne
               x={x}
               y={y}
