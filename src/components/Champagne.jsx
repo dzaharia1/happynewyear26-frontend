@@ -127,13 +127,6 @@ const Champagne = ({
   const [pickupItem, setPickupItem] = useState('champagneglass');
 
   useEffect(() => {
-    PRELOAD_IMAGES.forEach((src) => {
-      const img = new Image();
-      img.src = src;
-    });
-  }, []);
-
-  useEffect(() => {
     if (chatmessage) {
       setShowChatMessage(true);
       const timer = setTimeout(() => setShowChatMessage(false), 4000);

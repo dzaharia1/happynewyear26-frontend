@@ -5,7 +5,7 @@ import Maze from './components/Maze';
 import Champagne from './components/Champagne';
 import DPad from './components/controls/DPad';
 import { useGameLoop } from './hooks/useGameLoop';
-import { LEVEL, TILE_SIZE, ZOOM_LEVEL, ITEMLOCATIONS, PICKUP_THRESHOLD } from './constants';
+import { LEVEL, TILE_SIZE, ZOOM_LEVEL, ITEMLOCATIONS, PICKUP_THRESHOLD, PRELOAD_IMAGES } from './constants';
 import ControllerButton from './components/controls/ControllerButton';
 import PlayerIntro from './components/PlayerIntro';
 import Overlay from './components/Overlay';
@@ -85,6 +85,13 @@ function App() {
   // Track all other players. Key = socket.id, Value = player object
   const [players, setPlayers] = useState({});
   const pendingTimeouts = useRef({});
+
+  useEffect(() => {
+    PRELOAD_IMAGES.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, []);
 
   useEffect(() => {
     // Socket event listeners
