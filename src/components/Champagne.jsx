@@ -2,7 +2,12 @@ import React, { useEffect, useState } from 'react';
 import styled, { keyframes, css } from 'styled-components';
 import UILabel from './UILabel';
 import Item from './Item';
-import { TILE_SIZE, LAYER_LEVELS, PRELOAD_IMAGES, COLOR_SCHEMES } from '../constants';
+import {
+  TILE_SIZE,
+  LAYER_LEVELS,
+  PRELOAD_IMAGES,
+  COLOR_SCHEMES,
+} from '../constants';
 
 const ChampagneWrapper = styled.div`
   position: absolute;
@@ -14,9 +19,12 @@ const ChampagneWrapper = styled.div`
   align-items: center;
   justify-content: center;
   pointer-events: none; // Let clicks pass through to maze if needed
-  
+
   /* Smoothly interpolate movement for remote players */
-  transition: ${(props) => props.iscurrplayer === 'true' ? 'none' : 'top 0.05s linear, left 0.05s linear'};
+  transition: ${(props) =>
+    props.iscurrplayer === 'true'
+      ? 'none'
+      : 'top 0.05s linear, left 0.05s linear'};
 `;
 
 // Placeholder for sprite
@@ -43,11 +51,11 @@ const Sprite = styled.div`
     z-index: ${LAYER_LEVELS.cat};
 
     ${(props) =>
-    props.$direction === 'left' &&
-    css`
+      props.$direction === 'left' &&
+      css`
         background-image: url(./champagne/${props.colorscheme}/left0.png);
         ${props.$isMoving &&
-      css`
+        css`
           animation: ${keyframes`
             0% {
               background-image: url(./champagne/${props.colorscheme}/left1.png);
@@ -60,11 +68,11 @@ const Sprite = styled.div`
       `}
 
     ${(props) =>
-    props.$direction === 'right' &&
-    css`
+      props.$direction === 'right' &&
+      css`
         background-image: url(./champagne/${props.colorscheme}/right0.png);
         ${props.$isMoving &&
-      css`
+        css`
           animation: ${keyframes`
             0% {
               background-image: url(./champagne/${props.colorscheme}/right1.png);
@@ -77,11 +85,11 @@ const Sprite = styled.div`
       `}
     
     ${(props) =>
-    props.$direction === 'up' &&
-    css`
+      props.$direction === 'up' &&
+      css`
         background-image: url(./champagne/${props.colorscheme}/up0.png);
         ${props.$isMoving &&
-      css`
+        css`
           animation: ${keyframes`
             0% {
               background-image: url(./champagne/${props.colorscheme}/up2.png);
@@ -94,11 +102,11 @@ const Sprite = styled.div`
       `}
     
     ${(props) =>
-    props.$direction === 'down' &&
-    css`
+      props.$direction === 'down' &&
+      css`
         background-image: url(./champagne/${props.colorscheme}/down0.png);
         ${props.$isMoving &&
-      css`
+        css`
           animation: ${keyframes`
             0% {
               background-image: url(./champagne/${props.colorscheme}/down1.png);
@@ -129,7 +137,7 @@ const Champagne = ({
   useEffect(() => {
     if (chatmessage) {
       setShowChatMessage(true);
-      const timer = setTimeout(() => setShowChatMessage(false), 4000);
+      const timer = setTimeout(() => setShowChatMessage(false), 10000);
       return () => clearTimeout(timer);
     }
   }, [chatmessage, chatTimestamp]);
@@ -143,7 +151,12 @@ const Champagne = ({
         $isMoving={isMoving}
         colorscheme={playerprofile.playerColorScheme}
       />
-      <UILabel colorscheme={playerprofile.playerColorScheme} text={playerprofile.playerName + (showChatMessage ? ': ' + chatmessage : '')} />
+      <UILabel
+        colorscheme={playerprofile.playerColorScheme}
+        text={
+          playerprofile.playerName + (showChatMessage ? ': ' + chatmessage : '')
+        }
+      />
       {/* {item !== 'none' && <Item item={pickupItem} />} */}
     </ChampagneWrapper>
   );
