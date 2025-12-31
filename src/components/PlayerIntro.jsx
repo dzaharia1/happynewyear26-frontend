@@ -21,35 +21,57 @@ const PlayerIntroContainer = styled.div`
   align-items: center;
   justify-content: center;
   height: 100vh;
-  gap: ${(props) => props.theme.spacing.lg};
+  // gap: ${(props) => props.theme.spacing.lg};
   background-color: ${(props) => props.theme['intro-flow-background']};
+`;
+
+const IntroBlast = styled.img`
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  margin-bottom: 2rem;
 `;
 
 const IntroText = styled.h3`
   color: ${(props) => props.theme['intro-flow-text-secondary']};
   font-size: 2rem;
   font-family: 'bytesized', sans-serif;
-  font-size: 2rem;
   text-transform: uppercase;
-  margin: 0;
+  text-align: center;
+  margin: 0 0 2rem 0;
+  width: 80%;
+  // max-width: 500px;
 `;
 
-const Title = styled.h1`
-  color: ${(props) => props.theme['intro-flow-text']};
-  font-size: 4rem;
-  font-family: 'pixelify sans', sans-serif;
-  text-transform: uppercase;
-  margin: 0;
-`;
+// const Title = styled.h1`
+//   color: ${(props) => props.theme['intro-flow-text']};
+//   font-size: 3rem;
+//   font-family: 'pixelify sans', sans-serif;
+//   text-transform: uppercase;
+//   text-align: center;
+//   font-size: 3rem;
+//   margin: 0 0 -.5rem 0;
+//   width: 80%;
+//   max-width: 500px;
 
-const SubTitle = styled.h3`
-  color: ${(props) => props.theme['intro-flow-text']};
-  font-size: 2rem;
-  font-family: 'pixelify sans', sans-serif;
-  font-size: 2rem;
-  text-transform: uppercase;
-  margin: 0;
-`;
+//   @media (min-width: 768px) {
+//     font-size: 5rem;
+//   }
+// `;
+
+// const SubTitle = styled.h3`
+//   color: ${(props) => props.theme['intro-flow-text']};
+//   font-size: 2rem;
+//   font-family: 'pixelify sans', sans-serif;
+//   font-size: 2.5rem;
+//   text-transform: uppercase;
+//   text-align: center;
+//   margin: 0 0 4rem 0;
+
+//   @media (min-width: 768px) {
+//     font-size: 3rem;
+//   }
+// `;
 
 const Label = styled.p`
   margin-bottom: -${(props) => props.theme.spacing.md};
@@ -57,7 +79,7 @@ const Label = styled.p`
   font-size: 2rem;
   font-family: 'bytesized', sans-serif;
   text-transform: uppercase;
-  margin-bottom: ${(props) => props.theme.spacing.md};
+  margin-bottom: ${(props) => props.theme.spacing.xxl};
 `;
 
 const ButtonContainer = styled.div`
@@ -77,7 +99,7 @@ const CatSampleContainer = styled.div`
   justify-content: center;
   align-items: center;
   gap: ${(props) => props.theme.spacing.lg};
-  margin-bottom: ${(props) => props.theme.spacing.xl};
+  margin-bottom: ${(props) => props.theme.spacing.xxl};
 
   width: 100 %;
   max-width: 500px;
@@ -193,8 +215,9 @@ export const PlayerIntro = ({ onSubmit }) => {
       {introStep === 0 && (
         <>
           <IntroText>You have been cordially invited to</IntroText>
-          <Title>Champagne's</Title>
-          <SubTitle>Midnight Meow</SubTitle>
+          {/* <Title>Champagne's</Title>
+          <SubTitle>Midnight Meow</SubTitle> */}
+          <IntroBlast src="titlecard.png" />
           <Button onClick={() => setIntroStep(1)}>Get Started</Button>
         </>
       )}

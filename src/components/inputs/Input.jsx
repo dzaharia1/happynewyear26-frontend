@@ -7,6 +7,7 @@ const InputContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin: 0 0 2rem 0;
 `;
 
 const Label = styled.label`
@@ -14,6 +15,10 @@ const Label = styled.label`
   color: ${(props) => props.theme['intro-flow-text-secondary']};
   font-size: 2rem;
   text-transform: uppercase;
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+  margin-bottom: 2rem;
 `;
 
 const StyledInput = styled.div`

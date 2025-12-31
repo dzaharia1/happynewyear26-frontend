@@ -4,7 +4,7 @@ export const theme = {
 
   'intro-flow-background': '#EBFAF4',
   'intro-flow-text': '#3B3B3B',
-  'intro-flow-text-secondary': '#8EB6A4',
+  'intro-flow-text-secondary': '#729987',
 
   'button-background': '#3A614F',
   'button-text': '#EBFAF4',
