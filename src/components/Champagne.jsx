@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled, { keyframes, css } from 'styled-components';
 import { TILE_SIZE, LAYER_LEVELS, PRELOAD_IMAGES, COLOR_SCHEMES } from '../constants';
 
@@ -156,15 +156,25 @@ const Champagne = ({
   y,
   iscurrplayer = 'false',
   playerprofile,
+  chatmessage,
   direction,
   isMoving,
 }) => {
+  const [showChatMessage, setShowChatMessage] = useState(false);
+
   useEffect(() => {
     PRELOAD_IMAGES.forEach((src) => {
       const img = new Image();
       img.src = src;
     });
   }, []);
+
+  useEffect(() => {
+    if (chatmessage) {
+      setShowChatMessage(true);
+      setTimeout(() => setShowChatMessage(false), 7000);
+    }
+  }, [chatmessage]);
 
   return (
     <ChampagneWrapper
@@ -176,7 +186,7 @@ const Champagne = ({
         colorscheme={playerprofile.playerColorScheme}
       />
       <GamerTag colorscheme={playerprofile.playerColorScheme}>
-        {playerprofile.playerName}
+        {showChatMessage ? chatmessage : playerprofile.playerName}
       </GamerTag>
     </ChampagneWrapper>
   );

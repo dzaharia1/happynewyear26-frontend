@@ -231,7 +231,7 @@ export const PlayerIntro = ({ onSubmit }) => {
             placeholder="like 'Martha' or 'Dan'"
             required
           />
-          <Button onClick={() => setIntroStep(2)}>Next</Button>
+          <Button onClick={() => setIntroStep(2)} disabled={playerName === ''}>Next</Button>
         </>
       )}
       {introStep === 2 && (

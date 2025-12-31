@@ -19,6 +19,19 @@ const Button = styled.button`
   font-size: 1.5rem;
   text-transform: uppercase;
 
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    background-color: ${(props) => props.theme['button-disabled-background']};
+    color: ${(props) => props.theme['button-disabled-text']};
+    border-color: ${(props) => props.theme['button-disabled-border-color']};
+
+    &:after,
+    &:before {
+      background-color: ${(props) => props.theme['button-disabled-border-color']};
+    }
+  }
+
   &:after,
   &:before {
     content: '';

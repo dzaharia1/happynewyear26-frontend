@@ -16,6 +16,7 @@ const Label = styled.label`
   margin-bottom: ${(props) => props.theme.spacing.lg};
   color: ${(props) => props.theme['intro-flow-text-secondary']};
   font-size: 2rem;
+  line-height: 2rem;
   text-transform: uppercase;
   width: 100%;
   text-align: center;
@@ -34,7 +35,7 @@ const StyledInput = styled.div`
     border-color: ${(props) => props.theme['input-border-color']};
     border-style: solid;
     width: 100%;
-    padding: 40px 60px;
+    padding: 40px 12px;
     font-family: 'bytesized', sans-serif;
     font-size: 2rem;
     background-color: ${(props) => props.theme['input-background']};
@@ -67,10 +68,10 @@ const StyledInput = styled.div`
   }
 `;
 
-export const InputComponent = ({ label, name, value, placeholder, onChange }) => {
+export const InputComponent = ({ label, name, value, placeholder, onChange, labelcolor }) => {
   return (
     <InputContainer>
-      <Label htmlFor={name}>{label}</Label>
+      <Label htmlFor={name} style={{ color: labelcolor }}>{label}</Label>
       <StyledInput>
         <input type="text" id={name} value={value} onChange={onChange} placeholder={placeholder} />
       </StyledInput>

@@ -15,6 +15,10 @@ export const theme = {
   'button-secondary-text': '#3C2124',
   'button-secondary-border-color': '#F3BA83',
 
+  'button-disabled-background': '#d6d6d6ff',
+  'button-disabled-text': '#686868ff',
+  'button-disabled-border-color': '#686868ff',
+
   'input-background': '#FDF5EC',
   'input-text': '#3C2124',
   'input-border-color': '#F3BA83',

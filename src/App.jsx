@@ -6,8 +6,12 @@ import Champagne from './components/Champagne';
 import DPad from './components/controls/DPad';
 import { useGameLoop } from './hooks/useGameLoop';
 import { LEVEL, TILE_SIZE, ZOOM_LEVEL } from './constants';
+import ControllerButton from './components/controls/ControllerButton';
 import PlayerIntro from './components/PlayerIntro';
+import Overlay from './components/Overlay';
+import ChatForm from './components/ChatForm';
 import theme from './theme';
+
 
 const socket = io(import.meta.env.VITE_BACKEND_URL);
 
@@ -49,6 +53,7 @@ const Instructions = styled.p`
 `;
 
 function App() {
+  const [showChatModal, setShowChatModal] = useState(false);
   const { x, y, direction, isMoving, setManualInput } = useGameLoop();
   const [hasRegistered, setHasRegistered] = useState(false);
   const [playerProfile, setPlayerProfile] = useState({
@@ -90,6 +95,11 @@ function App() {
           [id]: { ...prev[id], id, x, y, direction, isMoving },
         };
       });
+    });
+
+    socket.on('chatMessage', ({ id, message }) => {
+      console.log('Chat message:', message);
+      // setChatMessages((prev) => [...prev, { id, message }]);
     });
 
     socket.on('playerLeft', ({ id }) => {
@@ -186,6 +196,10 @@ function App() {
     setHasRegistered(true);
   };
 
+  const sendMessage = (message) => {
+    socket.emit('chatMessage', { message });
+  };
+
   return (
     <ThemeProvider theme={theme}>
       {!hasRegistered ? (
@@ -243,6 +257,11 @@ function App() {
             />
           </GameArea>
           <DPad onInput={setManualInput} />
+          <ControllerButton variant="grab" onClick={() => { }} />
+          <ControllerButton variant="chat" onClick={() => { setShowChatModal(true) }} />
+          {showChatModal && <Overlay>
+            <ChatForm sendMessage={sendMessage} setShowChatModal={setShowChatModal} />
+          </Overlay>}
         </GameContainer>
       )}
     </ThemeProvider>

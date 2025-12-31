@@ -24,23 +24,15 @@ export const useGameLoop = () => {
     const handleKeyDown = (e) => {
       switch (e.key) {
         case 'ArrowUp':
-        case 'w':
-        case 'W':
           currentInputRef.current = { x: 0, y: -1 };
           break;
         case 'ArrowDown':
-        case 's':
-        case 'S':
           currentInputRef.current = { x: 0, y: 1 };
           break;
         case 'ArrowLeft':
-        case 'a':
-        case 'A':
           currentInputRef.current = { x: -1, y: 0 };
           break;
         case 'ArrowRight':
-        case 'd':
-        case 'D':
           currentInputRef.current = { x: 1, y: 0 };
           break;
         default:

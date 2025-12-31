@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import theme from '../theme';
 
 const OverlayContainer = styled.div`
   position: fixed;
@@ -7,8 +8,10 @@ const OverlayContainer = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   padding: ${(props) => props.theme.spacing.lg};
-  // width: 80%;
-  // height: 80%;
+  border-width: 0 ${theme.inputBorderWidth}px;
+  border-style: solid;
+  border-color: ${theme['input-border-color']};
+  width: 90%;
 
   background-color: ${(props) => props.theme['background-color--base']};
 
@@ -16,6 +19,27 @@ const OverlayContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  &:after,
+  &:before {
+    content: '';
+    position: absolute;
+    height: ${theme.inputBorderWidth}px;
+    background-color: ${theme['input-border-color']};
+    z-index: -1;
+  }
+
+  &:before {
+    top: -${theme.inputBorderWidth}px;
+    left: 0;
+    right: 0;
+  }
+
+  &:after {
+    bottom: -${theme.inputBorderWidth}px;
+    left: 0;
+    right: 0;
+  }
 `;
 
 const OverlayScrim = styled.div`
