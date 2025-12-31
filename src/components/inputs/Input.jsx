@@ -8,6 +8,8 @@ const InputContainer = styled.div`
   align-items: center;
   justify-content: center;
   margin: 0 0 2rem 0;
+  width: 80%;
+  max-width: 500px;
 `;
 
 const Label = styled.label`
@@ -16,7 +18,6 @@ const Label = styled.label`
   font-size: 2rem;
   text-transform: uppercase;
   width: 100%;
-  max-width: 500px;
   text-align: center;
   margin-bottom: 2rem;
 `;
@@ -24,15 +25,19 @@ const Label = styled.label`
 const StyledInput = styled.div`
   position: relative;
   margin-bottom: ${(props) => props.theme.spacing.lg};
+  width: 100%;
+  max-width: 500px;
+
   input {
     border: none;
-    border-width: 0 ${theme.inputBorderWidth * 2}px;
-    border-color: #F3BA83;
+    border-width: 0 ${(props) => props.theme.inputBorderWidth}px;
+    border-color: ${(props) => props.theme['input-border-color']};
     border-style: solid;
+    width: 100%;
     padding: 40px 60px;
     font-family: 'bytesized', sans-serif;
     font-size: 2rem;
-    background-color: #FDF5EC;
+    background-color: ${(props) => props.theme['input-background']};
     text-align: center;
     text-transform: uppercase;
 
@@ -45,9 +50,9 @@ const StyledInput = styled.div`
   &:before {
       content: '';
       position: absolute;
-      left: ${theme.inputBorderWidth}px;
-      right: ${theme.inputBorderWidth}px;
-      height: ${theme.inputBorderWidth}px;
+      left: ${(props) => props.theme.inputBorderWidth}px;
+      right: ${(props) => props.theme.inputBorderWidth}px;
+      height: ${(props) => props.theme.inputBorderWidth}px;
 
       background-color: ${(props) => props.theme['input-border-color']};
     }
@@ -62,12 +67,12 @@ const StyledInput = styled.div`
   }
 `;
 
-export const InputComponent = ({ label, name, value, onChange }) => {
+export const InputComponent = ({ label, name, value, placeholder, onChange }) => {
   return (
     <InputContainer>
       <Label htmlFor={name}>{label}</Label>
       <StyledInput>
-        <input type="text" id={name} value={value} onChange={onChange} placeholder="Like 'Dan' or 'Martha'" />
+        <input type="text" id={name} value={value} onChange={onChange} placeholder={placeholder} />
       </StyledInput>
     </InputContainer>
   );

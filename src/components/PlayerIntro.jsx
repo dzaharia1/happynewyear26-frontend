@@ -26,7 +26,7 @@ const PlayerIntroContainer = styled.div`
 `;
 
 const IntroBlast = styled.img`
-  width: 100%;
+  width: 90%;
   max-width: 500px;
   height: auto;
   margin-bottom: 2rem;
@@ -39,7 +39,7 @@ const IntroText = styled.h3`
   text-transform: uppercase;
   text-align: center;
   margin: 0 0 2rem 0;
-  width: 80%;
+  width: 90%;
   // max-width: 500px;
 `;
 
@@ -51,7 +51,7 @@ const IntroText = styled.h3`
 //   text-align: center;
 //   font-size: 3rem;
 //   margin: 0 0 -.5rem 0;
-//   width: 80%;
+//   width: 90%;
 //   max-width: 500px;
 
 //   @media (min-width: 768px) {
@@ -88,7 +88,7 @@ const ButtonContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   gap: ${(props) => props.theme.spacing.md};
-  width: 100%;
+  width: 90%;
   max-width: 500px;
 `;
 
@@ -101,7 +101,7 @@ const CatSampleContainer = styled.div`
   gap: ${(props) => props.theme.spacing.lg};
   margin-bottom: ${(props) => props.theme.spacing.xxl};
 
-  width: 100 %;
+  width: 90%;
   max-width: 500px;
 `;
 
@@ -197,7 +197,7 @@ const ColorSchemeSelectorArrow = styled.button`
   cursor: pointer;
   color: ${(props) => props.theme['text-color--base']};
   width: 90px;
-  height: 40px;
+  height: 90px;
 `;
 
 export const PlayerIntro = ({ onSubmit }) => {
@@ -228,7 +228,7 @@ export const PlayerIntro = ({ onSubmit }) => {
             name="name"
             value={playerName}
             onChange={(e) => setPlayerName(e.target.value)}
-            placeholder="Enter your name"
+            placeholder="like 'Martha' or 'Dan'"
             required
           />
           <Button onClick={() => setIntroStep(2)}>Next</Button>
