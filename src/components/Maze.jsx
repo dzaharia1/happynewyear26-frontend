@@ -73,7 +73,8 @@ const Scenery = styled(Tile)`
       ` : ''}
 
       ${props.sprite === 'figtree' ? `
-        bottom: 0;
+        opacity: .5;
+        bottom: 24px;
         left: -15px;
         width: ${TILE_SIZE + 24}px;
         height: ${(TILE_SIZE * 2) - 3}px;
