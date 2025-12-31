@@ -4,10 +4,8 @@ import { LAYER_LEVELS, COLOR_SCHEMES } from '../constants';
 
 const baseBorderWidth = 3;
 const LabelContainer = styled.div`
-  position: absolute;
-  bottom: calc(100% + 15px);
-  left: 50%;
-  transform: translateX(-50%);
+  ${props => props.floating ?
+    'position: absolute; transform: translateX(-42%); bottom: calc(100% + 15px); left: 50%;' : 'position: relative;'}
 
   background-color: ${(props) =>
     COLOR_SCHEMES.find(scheme => scheme.name === props.colorscheme)?.background || '#793F3B'};
@@ -46,9 +44,9 @@ const LabelText = styled.p`
     text-transform: uppercase;
 `;
 
-const UILabel = ({ colorscheme, text }) => {
+const UILabel = ({ colorscheme, text, floating = true }) => {
   return (
-    <LabelContainer colorscheme={colorscheme}>
+    <LabelContainer colorscheme={colorscheme} floating={floating}>
       <LabelText colorscheme={colorscheme}>{text}</LabelText>
     </LabelContainer>
   );

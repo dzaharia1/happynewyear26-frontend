@@ -141,47 +141,6 @@ const CatSample = styled.div`
   }
 `;
 
-// const baseBorderWidth = 3;
-// const CatSampleTag = styled.div`
-//   position: relative;
-//   color: white;
-//   font-size: 22px;
-//   font-weight: bold;
-//   text-align: center;
-//   text-transform: uppercase;
-
-//   background-color: ${(props) =>
-//     COLOR_SCHEMES[props.colorscheme].background || '#793F3B'
-//   };
-//   padding: 2px 6px;
-//   border-style: solid;
-//   border-width: ${baseBorderWidth}px 0 ${baseBorderWidth * 2}px 0;
-//   border-color: ${(props) =>
-//     COLOR_SCHEMES[props.colorscheme].border || '#471d1aff'
-//   };
-//   color: ${(props) =>
-//     COLOR_SCHEMES[props.colorscheme].text || '#471d1aff'
-//   };
-//   pointer-events: none; // Let clicks pass through to maze if needed
-
-//   z-index: 10;
-
-//   &::after,
-//   &::before {
-//     position: absolute;
-//     content: '';
-//     right: 100%;
-//     top: calc(0px - ${baseBorderWidth}px + 2px);
-//     height: calc(100% + ${baseBorderWidth * 2}px - 2px);
-//     width: ${baseBorderWidth}px;
-//     background-color: ${(props) => COLOR_SCHEMES[props.colorscheme].border};
-//   }
-
-//   &::after {
-//     left: 100%;
-//   }
-// `;
-
 const CatSampleImage = styled.img`
   width: ${TILE_SIZE * 2}px;
   height: auto;
@@ -246,7 +205,7 @@ export const PlayerIntro = ({ onSubmit }) => {
               }
               direction="left" />
             <CatSample>
-              <UILabel colorscheme={COLOR_SCHEMES[colorSchemeChoice].name} text={playerName || 'You'} />
+              <UILabel colorscheme={COLOR_SCHEMES[colorSchemeChoice].name} text={playerName || 'You'} floating={false} />
               <CatSampleImage
                 src={`./champagne/${COLOR_SCHEMES[colorSchemeChoice].name}/right0.png`}
               />
