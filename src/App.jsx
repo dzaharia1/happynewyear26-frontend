@@ -59,6 +59,7 @@ function App() {
 
   // Track all other players. Key = socket.id, Value = player object
   const [players, setPlayers] = useState({});
+  const pendingTimeouts = useRef({});
 
   useEffect(() => {
     // Socket event listeners
@@ -73,21 +74,30 @@ function App() {
 
     socket.on('playerJoined', (newPlayer) => {
       console.log('Player joined:', newPlayer);
-      setPlayers((prev) => ({ ...prev, [newPlayer.id]: newPlayer }));
+      pendingTimeouts.current[newPlayer.id] = setTimeout(() => {
+        setPlayers((prev) => ({
+          ...prev,
+          [newPlayer.id]: { ...newPlayer, ...prev[newPlayer.id] },
+        }));
+        delete pendingTimeouts.current[newPlayer.id];
+      }, 250);
     });
 
     socket.on('playerMoved', ({ id, x, y, direction, isMoving }) => {
       setPlayers((prev) => {
-        if (!prev[id]) return prev; // If we don't know them yet
         return {
           ...prev,
-          [id]: { ...prev[id], x, y, direction, isMoving },
+          [id]: { ...prev[id], id, x, y, direction, isMoving },
         };
       });
     });
 
     socket.on('playerLeft', ({ id }) => {
       console.log('Player left:', id);
+      if (pendingTimeouts.current[id]) {
+        clearTimeout(pendingTimeouts.current[id]);
+        delete pendingTimeouts.current[id];
+      }
       setPlayers((prev) => {
         const copy = { ...prev };
         delete copy[id];
@@ -101,6 +111,8 @@ function App() {
       socket.off('playerJoined');
       socket.off('playerMoved');
       socket.off('playerLeft');
+      // Clear any pending join timeouts
+      Object.values(pendingTimeouts.current).forEach(clearTimeout);
     };
   }, []);
 
@@ -204,19 +216,21 @@ function App() {
             <Maze />
 
             {/* Render Remote Players */}
-            {Object.values(players).map((p) => (
-              <Champagne
-                key={p.id}
-                x={p.x}
-                y={p.y}
-                direction={p.direction}
-                isMoving={p.isMoving}
-                playerprofile={{
-                  playerName: p.name,
-                  playerColorScheme: p.color,
-                }}
-              />
-            ))}
+            {Object.values(players)
+              .filter((p) => p.name) // Only render if we have their info (from playerJoined delay)
+              .map((p) => (
+                <Champagne
+                  key={p.id}
+                  x={p.x}
+                  y={p.y}
+                  direction={p.direction}
+                  isMoving={p.isMoving}
+                  playerprofile={{
+                    playerName: p.name,
+                    playerColorScheme: p.color,
+                  }}
+                />
+              ))}
 
             {/* Render Local Player */}
             <Champagne
