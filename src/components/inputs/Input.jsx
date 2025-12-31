@@ -37,10 +37,14 @@ const StyledInput = styled.div`
     width: 100%;
     padding: 40px 12px;
     font-family: 'bytesized', sans-serif;
-    font-size: 2rem;
+    font-size: 1.5rem;
     background-color: ${(props) => props.theme['input-background']};
     text-align: center;
     text-transform: uppercase;
+
+    @media screen and (min-width: 768px) {
+      font-size: 2rem;
+    }
 
     &:focus {
       outline: none;
