@@ -106,21 +106,29 @@ function App() {
 
   // Emit movement updates
   const lastEmittedRef = useRef({ x: -1, y: -1, direction: '', isMoving: false });
+  const lastEmitTimeRef = useRef(0);
+
   useEffect(() => {
     if (!hasRegistered) return;
 
-    // Throttle or check diff to avoid spamming if nothing changed
-    // Actually, useGameLoop updates x/y every frame if moving.
-    // We should emit if it changed.
+    const now = Date.now();
     const prev = lastEmittedRef.current;
-    if (
+
+    // Check if state actually changed
+    const hasChanged =
       prev.x !== x ||
       prev.y !== y ||
       prev.direction !== direction ||
-      prev.isMoving !== isMoving
-    ) {
+      prev.isMoving !== isMoving;
+
+    if (!hasChanged) return;
+
+    // Throttle: emit max once every 50ms, OR if player stopped moving (critical update)
+    // We always want to send the "stopped" state immediately so animations stop.
+    if (now - lastEmitTimeRef.current > 50 || (prev.isMoving && !isMoving)) {
       socket.emit('move', { x, y, direction, isMoving });
       lastEmittedRef.current = { x, y, direction, isMoving };
+      lastEmitTimeRef.current = now;
     }
   }, [x, y, direction, isMoving, hasRegistered]);
 
