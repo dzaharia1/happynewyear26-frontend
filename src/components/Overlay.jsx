@@ -20,6 +20,8 @@ const OverlayContainer = styled.div`
   justify-content: center;
   align-items: center;
 
+  max-width: 600px;
+
   &:after,
   &:before {
     content: '';
