@@ -19,6 +19,7 @@ const ChampagneWrapper = styled.div`
   align-items: center;
   justify-content: center;
   pointer-events: none; // Let clicks pass through to maze if needed
+  overflow: visible;
 
   /* Smoothly interpolate movement for remote players */
   transition: ${(props) =>
@@ -32,12 +33,13 @@ const Sprite = styled.div`
   width: 100%;
   height: 100%;
   position: relative;
+  overflow: visible;
 
   &::before {
     content: '';
     position: absolute;
 
-    width: 150%;
+    width: 200%;
     height: 150%;
     top: 50%;
     left: 50%;
