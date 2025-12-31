@@ -10,6 +10,7 @@ import ControllerButton from './components/controls/ControllerButton';
 import PlayerIntro from './components/PlayerIntro';
 import Overlay from './components/Overlay';
 import ChatForm from './components/ChatForm';
+import NotificationArea from './components/NotificationArea';
 import theme from './theme';
 
 
@@ -64,6 +65,14 @@ function App() {
     chatTimestamp: null,
   });
 
+  const [notifications, setNotifications] = useState([
+    {
+      id: '1',
+      message: 'Welcome to the party!',
+      timestamp: Date.now(),
+    }
+  ]);
+
   // Track all other players. Key = socket.id, Value = player object
   const [players, setPlayers] = useState({});
   const pendingTimeouts = useRef({});
@@ -86,6 +95,8 @@ function App() {
           ...prev,
           [newPlayer.id]: { ...newPlayer, ...prev[newPlayer.id] },
         }));
+        const truncatedPlayerName = newPlayer.name.slice(0, 7);
+        setNotifications((prev) => [...prev, { id: newPlayer.id, message: `${truncatedPlayerName} joined`, timestamp: Date.now() }]);
         delete pendingTimeouts.current[newPlayer.id];
       }, 250);
     });
@@ -119,7 +130,7 @@ function App() {
       }
     });
 
-    socket.on('playerLeft', ({ id }) => {
+    socket.on('playerLeft', ({ id, name }) => {
       console.log('Player left:', id);
       if (pendingTimeouts.current[id]) {
         clearTimeout(pendingTimeouts.current[id]);
@@ -130,6 +141,7 @@ function App() {
         delete copy[id];
         return copy;
       });
+      setNotifications((prev) => [...prev, { id, message: `${name} left`, timestamp: Date.now() }]);
     });
 
     // Cleanup listeners on unmount
@@ -283,6 +295,7 @@ function App() {
           {showChatModal && <Overlay>
             <ChatForm sendMessage={sendMessage} setShowChatModal={setShowChatModal} />
           </Overlay>}
+          {/* <NotificationArea notifications={notifications} /> */}
         </GameContainer>
       )}
     </ThemeProvider>
