@@ -39,7 +39,7 @@ const Sprite = styled.div`
     content: '';
     position: absolute;
 
-    width: 200%;
+    width: 150%;
     height: 150%;
     top: 50%;
     left: 50%;
