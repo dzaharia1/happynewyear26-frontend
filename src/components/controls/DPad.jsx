@@ -14,6 +14,9 @@ const DPadContainer = styled.div`
   align-items: center;
   justify-content: center;
   z-index: ${LAYER_LEVELS.controls};
+
+  -webkit-user-select: none;
+  user-select: none;
 `;
 
 const SpriteBackground = styled.div`
