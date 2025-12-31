@@ -26,7 +26,7 @@ const NotificationAreaContainer = styled.div`
 const NotificationArea = (notifications) => {
     return (
         <NotificationAreaContainer>
-            {notifications.map((notification, index) => (
+            {Array.isArray(notifications.notifications) && notifications.notifications.map((notification, index) => (
                 <UILabel key={index} text={notification.message} />
             ))}
         </NotificationAreaContainer>
