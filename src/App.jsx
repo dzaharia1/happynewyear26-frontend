@@ -30,6 +30,9 @@ const GameContainer = styled.div`
   background: ${(props) => props.theme['background-color-outer']};
   color: ${(props) => props.theme['text-color--base']};
   overflow: hidden; /* Prevent scrollbars when zooming/panning */
+
+  -webkit-user-select: none;
+  user-select: none;
 `;
 
 const Title = styled.h1`
@@ -50,7 +53,10 @@ const GameArea = styled.div`
 `;
 
 const Instructions = styled.p`
-  margin-bottom: 8px;
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
   color: #c8c8c8ff;
   font-size: 0.9rem;
 `;
