@@ -1,6 +1,7 @@
 export const theme = {
   'background-color--base': '#793F3B',
   'border-color--base': '#471d1aff',
+  'background-color-outer': 'radial-gradient(circle at center, #260b3cff, #0c020fff)',
 
   'intro-flow-background': '#EBFAF4',
   'intro-flow-text': '#3B3B3B',

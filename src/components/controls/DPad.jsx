@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { LAYER_LEVELS } from '../constants';
+import { LAYER_LEVELS } from '../../constants';
 
 const DPadContainer = styled.div`
   position: fixed;
-  bottom: 80px;
-  left: 50%;
-  transform: translateX(-50%);
+  bottom: 30px;
+  left: 30px;
 
   width: 150px;
   height: 150px;
@@ -15,7 +14,21 @@ const DPadContainer = styled.div`
   align-items: center;
   justify-content: center;
   z-index: ${LAYER_LEVELS.controls};
-  opacity: 0.7;
+`;
+
+const SpriteBackground = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/d-pad.png');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+  // opacity: 0.8;
+  pointer-events: none;
 `;
 
 // A cross shape container
@@ -27,24 +40,16 @@ const Cross = styled.div`
 
 const Button = styled.div`
   position: absolute;
-  background: rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 
   &:active,
   &.active {
-    background: rgba(255, 255, 255, 0.5);
-  }
-
-  &::after {
-    content: '';
-    border: solid white;
-    border-width: 0 4px 4px 0;
-    display: inline-block;
-    padding: 6px;
+    background: rgba(255, 255, 255, 0.1);
   }
 `;
 
@@ -54,12 +59,6 @@ const UpButton = styled(Button)`
   transform: translateX(-50%);
   width: 50px;
   height: 50px;
-  border-radius: 10px 10px 0 0;
-
-  &::after {
-    transform: rotate(-135deg);
-    margin-top: 5px;
-  }
 `;
 
 const DownButton = styled(Button)`
@@ -68,12 +67,6 @@ const DownButton = styled(Button)`
   transform: translateX(-50%);
   width: 50px;
   height: 50px;
-  border-radius: 0 0 10px 10px;
-
-  &::after {
-    transform: rotate(45deg);
-    margin-bottom: 5px;
-  }
 `;
 
 const LeftButton = styled(Button)`
@@ -82,12 +75,6 @@ const LeftButton = styled(Button)`
   transform: translateY(-50%);
   width: 50px;
   height: 50px;
-  border-radius: 10px 0 0 10px;
-
-  &::after {
-    transform: rotate(135deg);
-    margin-left: 5px;
-  }
 `;
 
 const RightButton = styled(Button)`
@@ -96,23 +83,6 @@ const RightButton = styled(Button)`
   transform: translateY(-50%);
   width: 50px;
   height: 50px;
-  border-radius: 0 10px 10px 0;
-
-  &::after {
-    transform: rotate(-45deg);
-    margin-right: 5px;
-  }
-`;
-
-const CenterCircle = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 50px;
-  height: 50px;
-  background: rgba(255, 255, 255, 0.1);
-  z-index: ${LAYER_LEVELS.controls - 1};
 `;
 
 const DPad = ({ onInput }) => {
@@ -148,6 +118,7 @@ const DPad = ({ onInput }) => {
 
   return (
     <DPadContainer>
+      <SpriteBackground />
       <Cross>
         <UpButton
           className={activeDirection === 'up' ? 'active' : ''}
@@ -169,7 +140,6 @@ const DPad = ({ onInput }) => {
           onTouchStart={handleStart('right', 1, 0)}
           onTouchEnd={handleEnd}
         />
-        <CenterCircle />
       </Cross>
     </DPadContainer>
   );

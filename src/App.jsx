@@ -3,7 +3,7 @@ import styled, { ThemeProvider } from 'styled-components';
 import { io } from 'socket.io-client';
 import Maze from './components/Maze';
 import Champagne from './components/Champagne';
-import DPad from './components/DPad';
+import DPad from './components/controls/DPad';
 import { useGameLoop } from './hooks/useGameLoop';
 import { LEVEL, TILE_SIZE, ZOOM_LEVEL } from './constants';
 import PlayerIntro from './components/PlayerIntro';
@@ -20,7 +20,7 @@ const GameContainer = styled.div`
   height: 100%;
   width: 100%;
 
-  background-color: ${(props) => props.theme['background-color--base']};
+  background: ${(props) => props.theme['background-color-outer']};
   color: ${(props) => props.theme['text-color--base']};
   overflow: hidden; /* Prevent scrollbars when zooming/panning */
 `;
