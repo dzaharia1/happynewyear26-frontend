@@ -94,41 +94,44 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      {/* {!hasRegistered && <PlayerIntro onSubmit={registerPlayer} />} */}
-      <GameContainer>
-        <div
-          style={{
-            position: 'fixed',
-            top: 20,
-            left: 0,
-            width: '100%',
-            zIndex: 100,
-            pointerEvents: 'none', // Let clicks pass through to game if needed
-          }}>
-          <Title>Champer-Quest</Title>
-          <Instructions>Use Arrow Keys or WASD to move</Instructions>
-        </div>
+      {!hasRegistered ? (
+        <PlayerIntro onSubmit={registerPlayer} />
+      ) : (
+        <GameContainer>
+          <div
+            style={{
+              position: 'fixed',
+              top: 20,
+              left: '50%',
+              transform: 'translateX(-50%)',
+              width: '100%',
+              zIndex: 100,
+              pointerEvents: 'none', // Let clicks pass through to game if needed
+            }}>
+            <Instructions>Use Arrow Keys or WASD to move</Instructions>
+          </div>
 
-        <GameArea
-          style={{
-            transform: transformStyle,
-            transformOrigin: '0 0',
-            position: 'absolute',
-            left: 0,
-            top: 0,
-          }}>
-          <Maze />
-          <Champagne
-            x={x}
-            y={y}
-            direction={direction}
-            isMoving={isMoving}
-            iscurrplayer="true"
-            playerprofile={playerProfile}
-          />
-        </GameArea>
-        <DPad onInput={setManualInput} />
-      </GameContainer>
+          <GameArea
+            style={{
+              transform: transformStyle,
+              transformOrigin: '0 0',
+              position: 'absolute',
+              left: 0,
+              top: 0,
+            }}>
+            <Maze />
+            <Champagne
+              x={x}
+              y={y}
+              direction={direction}
+              isMoving={isMoving}
+              iscurrplayer="true"
+              playerprofile={playerProfile}
+            />
+          </GameArea>
+          <DPad onInput={setManualInput} />
+        </GameContainer>
+      )}
     </ThemeProvider>
   );
 }

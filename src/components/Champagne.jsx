@@ -131,19 +131,19 @@ const GamerTag = styled.div`
   transform: translateX(-50%);
 
   color: ${(props) =>
-    COLOR_SCHEMES[props.colorscheme].text || '#c5bfbfff'};
+    COLOR_SCHEMES.find(scheme => scheme.name === props.colorscheme)?.text || '#c5bfbfff'};
   font-size: 22px;
   font-weight: bold;
   text-align: center;
   text-transform: uppercase;
 
   background-color: ${(props) =>
-    COLOR_SCHEMES[props.colorscheme].background || '#793F3B'};
+    COLOR_SCHEMES.find(scheme => scheme.name === props.colorscheme)?.background || '#793F3B'};
   padding: 2px 6px;
   border-style: solid;
   border-width: ${baseBorderWidth}px 0 ${baseBorderWidth * 2}px 0;
   border-color: ${(props) =>
-    COLOR_SCHEMES[props.colorscheme].border || '#471d1aff'};
+    COLOR_SCHEMES.find(scheme => scheme.name === props.colorscheme)?.border || '#471d1aff'};
   pointer-events: none; // Let clicks pass through to maze if needed
 
   z-index: ${LAYER_LEVELS.gamertags};
@@ -156,7 +156,7 @@ const GamerTag = styled.div`
     top: calc(0px - ${baseBorderWidth}px + 2px);
     height: calc(100% + ${baseBorderWidth * 2}px - 2px);
     width: ${baseBorderWidth}px;
-    background-color: ${(props) => COLOR_SCHEMES[props.colorscheme].border};
+    background-color: ${(props) => COLOR_SCHEMES.find(scheme => scheme.name === props.colorscheme)?.border};
   }
 
   &::after {

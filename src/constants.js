@@ -122,43 +122,50 @@ export const PRELOAD_IMAGES = [
   './champagne/black/down2.png',
 ];
 
-export const COLOR_SCHEMES = {
-  brown: {
+export const COLOR_SCHEMES = [
+  {
+    name: 'brown',
     background: '#793F3B',
     border: '#471d1aff',
     text: '#f0f0f0ff',
   },
-  blue: {
+  {
+    name: 'blue',
     background: '#BCDCEA',
     border: '#0B1843',
     text: '#0B1843',
   },
-  green: {
+  {
+    name: 'green',
     background: '#A4CDB2',
     border: '#27352D',
     text: '#27352D',
   },
-  orange: {
+  {
+    name: 'orange',
     background: '#A95238',
     border: '#402D26',
     text: '#f0f0f0ff',
   },
-  pink: {
+  {
+    name: 'pink',
     background: '#EECDEE',
     border: '#332A34',
     text: '#674860',
   },
-  white: {
+  {
+    name: 'white',
     background: '#E6CED4',
     border: '#382B2B',
     text: '#382B2B',
   },
-  black: {
+  {
+    name: 'black',
     background: '#585253',
     border: '#312F2D',
     text: '#f0f0f0ff',
   },
-};
+];
 
 // 0 = empty floor
 // 1 = red wall

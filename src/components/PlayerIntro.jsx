@@ -1,27 +1,28 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
-import Overlay from './Overlay';
-// import Button from './inputs/Button';
+import Button from './inputs/Button';
 import Input from './inputs/Input';
-import { TILE_SIZE } from '../constants';
+import { TILE_SIZE, COLOR_SCHEMES } from '../constants';
 import { theme } from '../theme';
 
 const colorOptions = ['blue', 'brown', 'green', 'orange', 'red'];
 
-const COLOR_SCHEMES = [
-  { name: 'brown', background: '#793F3B', border: '#471d1a' },
-  { name: 'blue', background: '#3B5F79', border: '#1a2f47' },
-  { name: 'green', background: '#3B7950', border: '#1a4728' },
-  { name: 'orange', background: '#79593B', border: '#47311a' },
-  { name: 'red', background: '#793B3B', border: '#471a1a' },
-];
+// const COLOR_SCHEMES = [
+//   { name: 'brown', background: '#793F3B', border: '#471d1a' },
+//   { name: 'blue', background: '#3B5F79', border: '#1a2f47' },
+//   { name: 'green', background: '#3B7950', border: '#1a4728' },
+//   { name: 'orange', background: '#79593B', border: '#47311a' },
+//   { name: 'red', background: '#793B3B', border: '#471a1a' },
+// ];
 
 const PlayerIntroContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  height: 100vh;
   gap: ${(props) => props.theme.spacing.lg};
+  background-color: ${(props) => props.theme['background-color--base']};
 `;
 
 const TitleBlast = styled.img`
@@ -66,6 +67,8 @@ const CatSampleTag = styled.div`
   border-width: ${baseBorderWidth}px 0 ${baseBorderWidth * 2}px 0;
   border-color: ${(props) =>
     COLOR_SCHEMES[props.colorscheme].border || '#471d1aff'};
+  color: ${(props) =>
+    COLOR_SCHEMES[props.colorscheme].text || '#471d1aff'};
   pointer-events: none; // Let clicks pass through to maze if needed
 
   z-index: 10;
@@ -101,60 +104,56 @@ const ColorSchemeSelectorArrow = styled.button`
 `;
 
 export const PlayerIntro = ({ onSubmit }) => {
-  const nameInputRef = useRef();
   const [playerName, setPlayerName] = useState('');
   const [colorSchemeChoice, setColorSchemeChoice] = useState(0);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const name = nameInputRef.current.value;
-    onSubmit(name, COLOR_SCHEMES[colorSchemeChoice].name);
+    onSubmit(playerName, COLOR_SCHEMES[colorSchemeChoice].name);
   };
 
   return (
-    <Overlay title="Configure your player">
-      <PlayerIntroContainer>
-        <TitleBlast src="./titleblast.png" />
-        <Input
-          label="What is your name?"
-          name="name"
-          ref={nameInputRef}
-          value={playerName}
-          onChange={(e) => setPlayerName(e.target.value)}
-          placeholder="Enter your name"
-          required
-        />
-        <Label>What color do you want to be?</Label>
-        <CatSampleContainer>
-          <ColorSchemeSelectorArrow
-            onClick={() =>
-              setColorSchemeChoice(
-                (prev) =>
-                  (prev - 1 + COLOR_SCHEMES.length) % COLOR_SCHEMES.length,
-              )
-            }>
-            prev
-          </ColorSchemeSelectorArrow>
-          <CatSample>
-            <CatSampleTag colorscheme={colorSchemeChoice}>
-              {playerName || 'You'}
-            </CatSampleTag>
-            <CatSampleImage
-              src={`./champagne/${COLOR_SCHEMES[colorSchemeChoice].name}/right0.png`}
-            />
-          </CatSample>
-          <ColorSchemeSelectorArrow
-            onClick={() =>
-              setColorSchemeChoice(
-                (prev) =>
-                  (prev + 1 + COLOR_SCHEMES.length) % COLOR_SCHEMES.length,
-              )
-            }>
-            next
-          </ColorSchemeSelectorArrow>
-        </CatSampleContainer>
-      </PlayerIntroContainer>
-    </Overlay>
+    <PlayerIntroContainer>
+      <TitleBlast src="./titleblast.png" />
+      <Input
+        label="What is your name?"
+        name="name"
+        value={playerName}
+        onChange={(e) => setPlayerName(e.target.value)}
+        placeholder="Enter your name"
+        required
+      />
+      <Label>What color do you want to be?</Label>
+      <CatSampleContainer>
+        <ColorSchemeSelectorArrow
+          onClick={() =>
+            setColorSchemeChoice(
+              (prev) =>
+                (prev - 1 + COLOR_SCHEMES.length) % COLOR_SCHEMES.length,
+            )
+          }>
+          prev
+        </ColorSchemeSelectorArrow>
+        <CatSample>
+          <CatSampleTag colorscheme={colorSchemeChoice}>
+            {playerName || 'You'}
+          </CatSampleTag>
+          <CatSampleImage
+            src={`./champagne/${COLOR_SCHEMES[colorSchemeChoice].name}/right0.png`}
+          />
+        </CatSample>
+        <ColorSchemeSelectorArrow
+          onClick={() =>
+            setColorSchemeChoice(
+              (prev) =>
+                (prev + 1 + COLOR_SCHEMES.length) % COLOR_SCHEMES.length,
+            )
+          }>
+          next
+        </ColorSchemeSelectorArrow>
+      </CatSampleContainer>
+      <Button type="submit" onClick={handleSubmit}>Join the party!</Button>
+    </PlayerIntroContainer>
   );
 };
 
