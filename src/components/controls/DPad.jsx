@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { LAYER_LEVELS } from '../../constants';
 
@@ -90,20 +90,6 @@ const RightButton = styled(Button)`
 
 const DPad = ({ onInput }) => {
   const [activeDirection, setActiveDirection] = useState(null);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => {
-      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-      if (
-        /android/i.test(userAgent) ||
-        (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream)
-      ) {
-        setIsMobile(true);
-      }
-    };
-    checkMobile();
-  }, []);
 
   const handleStart = (dir, x, y) => (e) => {
     e.preventDefault(); // Prevent scrolling/selecting
@@ -117,8 +103,6 @@ const DPad = ({ onInput }) => {
     onInput({ x: 0, y: 0 });
   };
 
-  if (!isMobile) return null;
-
   return (
     <DPadContainer>
       <SpriteBackground />
@@ -127,21 +111,33 @@ const DPad = ({ onInput }) => {
           className={activeDirection === 'up' ? 'active' : ''}
           onTouchStart={handleStart('up', 0, -1)}
           onTouchEnd={handleEnd}
+          onMouseDown={handleStart('up', 0, -1)}
+          onMouseUp={handleEnd}
+          onMouseLeave={handleEnd}
         />
         <DownButton
           className={activeDirection === 'down' ? 'active' : ''}
           onTouchStart={handleStart('down', 0, 1)}
           onTouchEnd={handleEnd}
+          onMouseDown={handleStart('down', 0, 1)}
+          onMouseUp={handleEnd}
+          onMouseLeave={handleEnd}
         />
         <LeftButton
           className={activeDirection === 'left' ? 'active' : ''}
           onTouchStart={handleStart('left', -1, 0)}
           onTouchEnd={handleEnd}
+          onMouseDown={handleStart('left', -1, 0)}
+          onMouseUp={handleEnd}
+          onMouseLeave={handleEnd}
         />
         <RightButton
           className={activeDirection === 'right' ? 'active' : ''}
           onTouchStart={handleStart('right', 1, 0)}
           onTouchEnd={handleEnd}
+          onMouseDown={handleStart('right', 1, 0)}
+          onMouseUp={handleEnd}
+          onMouseLeave={handleEnd}
         />
       </Cross>
     </DPadContainer>
