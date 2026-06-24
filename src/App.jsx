@@ -16,7 +16,7 @@ import PickupObjectIndicator from './components/PickupObjectIndicator';
 import theme from './theme';
 
 
-const socket = io(import.meta.env.VITE_BACKEND_URL);
+const socket = io(import.meta.env.VITE_BACKEND_URL || window.location.origin);
 
 const GameContainer = styled.div`
   display: flex;
